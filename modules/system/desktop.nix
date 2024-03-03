@@ -18,7 +18,8 @@
 #    gnome.gedit
   ];
 
-  environment.plasma5.excludePackages = with pkgs; [
+  environment.plasma6.excludePackages = with pkgs; [
+  kdePackages.elisa
   ];
 
   programs.dconf.enable = true;
@@ -70,7 +71,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.jack.jackd.enable = true;
+  #services.jack.jackd.enable = true;
   #services.jack.loopback.enable = true;
 
   # Enable sound with pipewire.
@@ -83,7 +84,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)

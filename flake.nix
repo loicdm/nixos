@@ -24,31 +24,31 @@
       specialArgs = inputs;
       modules = [
       ./configuration.nix
-      ./modules/boot.nix
-      ./modules/conf.nix
-      ./modules/desktop.nix
-      ./modules/fileSystems.nix
-      ./modules/hardware/hardwareSupport.nix
-      ./modules/localeAndTime.nix
-      ./modules/networking.nix
-      ./modules/nixpkgs.nix
-      ./modules/systemPackages.nix
-      ./modules/users/loicdm.nix
-      ./modules/virtualisation.nix
+      ./modules/system/boot.nix
+      ./modules/system/conf.nix
+      ./modules/system/desktop.nix
+      ./modules/system/fileSystems.nix
+      ./modules/system/hardware/hardwareSupport.nix
+      ./modules/system/localeAndTime.nix
+      ./modules/system/networking.nix
+      ./modules/system/nixpkgs.nix
+      ./modules/system/systemPackages.nix
+      ./modules/system/users/loicdm.nix
+      ./modules/system/virtualisation.nix
       nixos-hardware.nixosModules.dell-xps-15-9560-intel
 
           # make home-manager as a module of nixos
           # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-#           home-manager.nixosModules.home-manager
-#           {
-#             home-manager.useGlobalPkgs = true;
-#             home-manager.useUserPackages = true;
-#             home-manager.users.loicdm = import ./modules/home-manager/loicdm.nix;
-#                # Configure nixpkgs.
-#
-#
-#             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
-#           }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.loicdm = import ./modules/home-manager/users/loicdm.nix;
+               # Configure nixpkgs.
+
+
+            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+          }
       ] ;
     };
   };

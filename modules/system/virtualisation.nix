@@ -12,6 +12,7 @@
   virtualisation.libvirtd.qemu.runAsRoot = false;
   # Required for virt-manager
   programs.dconf.enable = true;
+  programs.virt-manager.enable = true;
 
   # Enable VirtualBox.
   # In order to pass USB devices from the host to the guests,

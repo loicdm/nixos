@@ -22,13 +22,13 @@
     fastfetch
     helix
     git
-
+    nvd
     # Development man pages
     man-pages
     man-pages-posix
     most
   ];
-
+  programs.zsh.enable = true;
 
 
   # Development man pages
