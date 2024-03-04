@@ -6,25 +6,7 @@
   home.username = "loicdm";
   home.homeDirectory = "/home/loicdm";
   home.packages = with pkgs; [
-      keepassxc
-      nextcloud-client
-      discord
-      neovim
-      kdePackages.kate
-      wl-clipboard
-      wireguard-tools
-      git
-      # python3
-      hunspellDicts.fr-any
-     libreoffice-qt
-#      nerdfonts
-      zoom-us
-      vlc
-      btop
-      # prismlauncher-qt5
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-      kdePackages.partitionmanager
-      eza
+     #
   ];
 
   programs.starship = {
@@ -61,7 +43,7 @@
       ll = "ls -l";
       la = "ls -la";
       l = "ls";
-      update = "sudo nixos-rebuild switch --flake ~/Documents/nixos/#loicdm-pcp --upgrade-all";
+      update = "sudo nixos-rebuild boot --flake ~/Documents/nixos/#loicdm-pcp --upgrade-all";
     };
     initExtra =
     ''

@@ -19,6 +19,41 @@
   ];
 
 
+    environment.systemPackages = with pkgs; [
+      gnomeExtensions.dash-to-panel
+      gnomeExtensions.arcmenu
+      gnomeExtensions.appindicator
+      gnomeExtensions.quick-settings-tweaker
+      gnomeExtensions.clipboard-indicator
+      gnome.gnome-tweaks
+      libayatana-appindicator
+      libappindicator
+      #gnome-console
+      # gnome.gnome-boxes
+      #gnome-text-editor
+       keepassxc
+      nextcloud-client
+      discord
+      neovim
+      wl-clipboard
+      wireguard-tools
+      git
+      # python3
+      hunspellDicts.fr-any
+     libreoffice-fresh
+#      nerdfonts
+      zoom-us
+      vlc
+      btop
+      # prismlauncher-qt5
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+      eza
+      papirus-icon-theme
+
+    gnome.adwaita-icon-theme
+  ];
+
+
   programs.dconf.enable = true;
   services.xserver.displayManager.defaultSession = "gnome";
 
@@ -29,9 +64,9 @@
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
 
-  # qt.enable = true;
-  # qt.style = "adwaita-dark";
-  # qt.platformTheme = "gnome";
+  qt.enable = true;
+  qt.style = "adwaita-dark";
+  qt.platformTheme = "gnome";
 
   # Enable the KDE Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;

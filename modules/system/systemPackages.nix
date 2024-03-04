@@ -11,11 +11,8 @@
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     sudo
     wget
-    micro
     efibootmgr
-    papirus-icon-theme
-
-    gnome.adwaita-icon-theme
+    
     libsmbios
     htop
     neofetch

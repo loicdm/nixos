@@ -24,6 +24,28 @@
 
   environment.systemPackages = with pkgs; [
   kdePackages.sddm-kcm
+   keepassxc
+      nextcloud-client
+      discord
+      neovim
+      kdePackages.kate
+      wl-clipboard
+      wireguard-tools
+      git
+      # python3
+      hunspellDicts.fr-any
+     libreoffice-qt
+#      nerdfonts
+      zoom-us
+      vlc
+      btop
+      # prismlauncher-qt5
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+      kdePackages.partitionmanager
+      eza
+      papirus-icon-theme
+
+    gnome.adwaita-icon-theme
   ];
 
 
