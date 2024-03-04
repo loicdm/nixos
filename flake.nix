@@ -26,7 +26,7 @@
       ./configuration.nix
       ./modules/system/boot.nix
       ./modules/system/conf.nix
-      ./modules/system/desktop/plasma6.nix
+      ./modules/system/desktop/gnome.nix
       ./modules/system/fileSystems.nix
       ./modules/system/hardware/hardwareSupport.nix
       ./modules/system/localeAndTime.nix

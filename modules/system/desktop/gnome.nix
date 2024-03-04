@@ -15,6 +15,7 @@
   environment.gnome.excludePackages = with pkgs; [
     epiphany
     gnome.gnome-terminal
+    
 #    gnome.gedit
   ];
 
@@ -49,8 +50,10 @@
       (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
       eza
       papirus-icon-theme
+      gparted
 
     gnome.adwaita-icon-theme
+    gnome.gnome-themes-extra
   ];
 
 

@@ -44,6 +44,7 @@
       la = "ls -la";
       l = "ls";
       update = "sudo nixos-rebuild boot --flake ~/Documents/nixos/#loicdm-pcp --upgrade-all";
+      ip = "ip --color";
     };
     initExtra =
     ''

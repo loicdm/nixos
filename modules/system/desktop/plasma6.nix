@@ -44,8 +44,9 @@
       kdePackages.partitionmanager
       eza
       papirus-icon-theme
-
-    gnome.adwaita-icon-theme
+      adwaita-qt
+      qadwaitadecorations
+      gnome.adwaita-icon-theme
   ];
 
 
