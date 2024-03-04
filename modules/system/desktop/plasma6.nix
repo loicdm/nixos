@@ -7,16 +7,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
 
-  # Packages of gnome to exclude
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany
-    gnome.gnome-terminal
-#    gnome.gedit
-  ];
 
   environment.plasma6.excludePackages = with pkgs; [
   kdePackages.elisa
@@ -35,9 +26,6 @@
   kdePackages.sddm-kcm
   ];
 
-  # qt.enable = true;
-  # qt.style = "adwaita-dark";
-  # qt.platformTheme = "gnome";
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
@@ -46,11 +34,6 @@
 
   services.xserver.displayManager.sddm.wayland.enable = true;
   #services.xserver.displayManager.sddm.theme = "materia-dark" ;
-  #services.xserver.displayManager.sddm.settings = {
-  #General = {
-  # background = "\"/mnt/cryptvault/Nextcloud/Ma bibliothèque/wallpapers/DSCF1290.JPG\"";
-  #};
-  #};
   xdg.portal.enable = true;
 
   xdg.portal.extraPortals = [
@@ -63,6 +46,13 @@
   services.xserver = {
     xkb.layout = "fr";
     xkb.variant = "";
+  };
+
+    environment.variables = {
+      GTK_USE_PORTAL = "1";
+#     PAGER = "most";
+#     MANPAGER = "nvim +Man!";
+#     EDITOR = "helix";
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
