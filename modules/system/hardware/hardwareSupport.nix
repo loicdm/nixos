@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
+{ lib, pkgs, config, ... }: {
   # Enable fwupd daemon (firmware updates)
   services.fwupd.enable = true;
 
@@ -11,6 +6,7 @@
   hardware.bluetooth.enable = true;
 
   hardware.enableAllFirmware = true;
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 
 }

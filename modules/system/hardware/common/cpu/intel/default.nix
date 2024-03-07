@@ -1,6 +1,1 @@
-{
-  imports = [
-    ./cpu-only.nix
-    ../../gpu/intel
-  ];
-}
+{ imports = [ ./cpu-only.nix ../../gpu/intel ]; }

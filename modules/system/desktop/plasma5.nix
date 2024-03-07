@@ -1,21 +1,11 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
+{ lib, pkgs, config, ... }: {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-
-
-  environment.plasma6.excludePackages = with pkgs; [
-  kdePackages.elisa
-  ];
+  environment.plasma6.excludePackages = with pkgs; [ kdePackages.elisa ];
 
   programs.dconf.enable = true;
   services.xserver.displayManager.defaultSession = "plasmawayland";
-
 
   # Disable gnome-terminal
   programs.gnome-terminal.enable = false;
@@ -23,41 +13,42 @@
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   environment.systemPackages = with pkgs; [
-  kdePackages.sddm-kcm
-   keepassxc
-      nextcloud-client
-      discord
-      neovim
-      kdePackages.kate
-      wl-clipboard
-      wireguard-tools
-      git
-      # python3
-      hunspellDicts.fr-any
-     libreoffice-qt
-#      nerdfonts
-      zoom-us
-      vlc
-      btop
-      # prismlauncher-qt5
-     # (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-      kdePackages.partitionmanager
-      eza
-      papirus-icon-theme
-      adwaita-qt
-      qadwaitadecorations
-      gnome.adwaita-icon-theme
-      materia-theme
-      materia-kde-theme
-       #kdePackages.qtstyleplugin-kvantum
-       libsForQt5.qtstyleplugin-kvantum
+    kdePackages.sddm-kcm
+    keepassxc
+    nextcloud-client
+    discord
+    neovim
+    kdePackages.kate
+    wl-clipboard
+    wireguard-tools
+    git
+    # python3
+    hunspellDicts.fr-any
+    libreoffice-qt
+    #      nerdfonts
+    zoom-us
+    vlc
+    btop
+    # prismlauncher-qt5
+    # (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+    kdePackages.partitionmanager
+    eza
+    papirus-icon-theme
+    adwaita-qt
+    qadwaitadecorations
+    gnome.adwaita-icon-theme
+    materia-theme
+    materia-kde-theme
+    #kdePackages.qtstyleplugin-kvantum
+    libsForQt5.qtstyleplugin-kvantum
   ];
 
   fonts.fontDir.enable = true;
-fonts.packages = with pkgs; [
+  fonts.packages = with pkgs;
+    [
 
-	 (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-];
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+    ];
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
@@ -68,9 +59,7 @@ fonts.packages = with pkgs; [
   #services.xserver.displayManager.sddm.theme = "materia-dark" ;
   xdg.portal.enable = true;
 
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-gtk
-  ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.xdgOpenUsePortal = true;
 
   programs.firefox.enable = true;
@@ -80,11 +69,11 @@ fonts.packages = with pkgs; [
     xkb.variant = "";
   };
 
-    environment.variables = {
-      GTK_USE_PORTAL = "1";
-#     PAGER = "most";
-#     MANPAGER = "nvim +Man!";
-#     EDITOR = "helix";
+  environment.variables = {
+    GTK_USE_PORTAL = "1";
+    #     PAGER = "most";
+    #     MANPAGER = "nvim +Man!";
+    #     EDITOR = "helix";
   };
 
   # Enable touchpad support (enabled default in most desktopManager).

@@ -28,15 +28,15 @@ in {
       enable = mkOption {
         default = false;
         type = types.bool;
-        description = "Reload the i2c_designware driver after resuming from sleep.";
+        description =
+          "Reload the i2c_designware driver after resuming from sleep.";
       };
     };
   };
 
   config = mkIf cfg.enable {
-    powerManagement.resumeCommands = "${reloadDesignware}/bin/reload-i2c-designware.sh";
+    powerManagement.resumeCommands =
+      "${reloadDesignware}/bin/reload-i2c-designware.sh";
   };
 }
-
-
 

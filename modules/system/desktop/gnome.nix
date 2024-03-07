@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
+{ lib, pkgs, config, ... }: {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -15,57 +10,53 @@
   environment.gnome.excludePackages = with pkgs; [
     epiphany
     gnome.gnome-terminal
-    
-#    gnome.gedit
+
+    #    gnome.gedit
   ];
 
-
-    environment.systemPackages = with pkgs; [
-      gnomeExtensions.dash-to-panel
-      gnomeExtensions.arcmenu
-      gnomeExtensions.appindicator
-      gnomeExtensions.quick-settings-tweaker
-      gnomeExtensions.clipboard-indicator
-      gnome.gnome-tweaks
-      libayatana-appindicator
-      libappindicator
-      #gnome-console
-      # gnome.gnome-boxes
-      #gnome-text-editor
-       keepassxc
-      nextcloud-client
-      discord
-      neovim
-      wl-clipboard
-      wireguard-tools
-      git
-      # python3
-      hunspellDicts.fr-any
-     libreoffice-fresh
-#      nerdfonts
-      zoom-us
-      vlc
-      btop
-      # prismlauncher-qt5
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-      eza
-      papirus-icon-theme
-      gparted
+  environment.systemPackages = with pkgs; [
+    gnomeExtensions.dash-to-panel
+    gnomeExtensions.arcmenu
+    gnomeExtensions.appindicator
+    gnomeExtensions.quick-settings-tweaker
+    gnomeExtensions.clipboard-indicator
+    gnome.gnome-tweaks
+    libayatana-appindicator
+    libappindicator
+    #gnome-console
+    # gnome.gnome-boxes
+    #gnome-text-editor
+    keepassxc
+    nextcloud-client
+    discord
+    neovim
+    wl-clipboard
+    wireguard-tools
+    git
+    # python3
+    hunspellDicts.fr-any
+    libreoffice-fresh
+    #      nerdfonts
+    zoom-us
+    vlc
+    btop
+    # prismlauncher-qt5
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+    eza
+    papirus-icon-theme
+    gparted
 
     gnome.adwaita-icon-theme
     gnome.gnome-themes-extra
   ];
 
-
   programs.dconf.enable = true;
   services.xserver.displayManager.defaultSession = "gnome";
-
 
   # Disable gnome-terminal
   programs.gnome-terminal.enable = false;
 
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
 
   qt.enable = true;
   qt.style = "adwaita-dark";
@@ -85,9 +76,7 @@
   #};
   xdg.portal.enable = true;
 
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-kde
-  ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
   xdg.portal.xdgOpenUsePortal = true;
 
   programs.firefox.enable = true;

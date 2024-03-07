@@ -1,14 +1,11 @@
-{config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 
 let
   inherit (lib) mkIf mkOption types;
 
   reloadBtusb = pkgs.writeShellApplication {
     name = "reload-btusb.sh";
-    runtimeInputs = [
-      pkgs.coreutils
-      pkgs.kmod
-    ];
+    runtimeInputs = [ pkgs.coreutils pkgs.kmod ];
     text = ''
       # Reload Bluetooth after resuming from sleep.
 

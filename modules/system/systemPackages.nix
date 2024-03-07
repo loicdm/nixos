@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
+{ lib, pkgs, config, ... }: {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -12,7 +7,7 @@
     sudo
     wget
     efibootmgr
-    
+
     libsmbios
     htop
     neofetch
@@ -27,15 +22,14 @@
   ];
   programs.zsh.enable = true;
 
-
   # Development man pages
   documentation.dev.enable = true;
 
   # Mandoc as the default man page viewer
   documentation.man = {
-  # In order to enable to mandoc man-db has to be disabled.
-  man-db.enable = true;
-  mandoc.enable = false;
+    # In order to enable to mandoc man-db has to be disabled.
+    man-db.enable = true;
+    mandoc.enable = false;
   };
 
 }

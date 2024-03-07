@@ -12,8 +12,9 @@
       kernelPackages = pkgs.linuxPackages_latest;
     })
 
-    (lib.mkIf (lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.2") {
-      kernelParams = ["amdgpu.sg_display=0"];
-    })
+    (lib.mkIf
+      (lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.2") {
+        kernelParams = [ "amdgpu.sg_display=0" ];
+      })
   ];
 }

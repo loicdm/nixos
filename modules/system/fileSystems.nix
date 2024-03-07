@@ -1,19 +1,14 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
-     fileSystems."/" =
-    { device = "/dev/disk/by-uuid/bd66b9a2-50c2-4051-9c14-beea2d123a7b";
-      fsType = "btrfs";
-      options = [ "subvol=nixos" ];
-    };
+{ lib, pkgs, config, ... }: {
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/bd66b9a2-50c2-4051-9c14-beea2d123a7b";
+    fsType = "btrfs";
+    options = [ "subvol=nixos" ];
+  };
 
-  fileSystems."/efi" =
-    { device = "/dev/disk/by-uuid/F98C-1800";
-      fsType = "vfat";
-    };
+  fileSystems."/efi" = {
+    device = "/dev/disk/by-uuid/F98C-1800";
+    fsType = "vfat";
+  };
   # Open the luks device and mount the filesystem
   fileSystems."/cryptvault" = {
     device = "/dev/mapper/luks-cryptvault";

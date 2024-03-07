@@ -1,19 +1,12 @@
-{
-  lib,
-  pkgs,
-  config,
-  nixos-hardware,
-  ...
-}: {
+{ lib, pkgs, config, nixos-hardware, ... }: {
   specialisation = {
-    nvidia.configuration = {...}: {
+    nvidia.configuration = { ... }: {
       imports = [
         nixos-hardware.nixosModules.dell-xps-15-9560-nvidia
         #"${builtins.fetchGit { url = "https://github.com/NixOS/nixos-hardware.git"; }}/dell/xps/15-9560/nvidia"
       ];
-      disabledModules = [
-      ];
-      system.nixos.tags = ["nvidia"];
+      disabledModules = [ ];
+      system.nixos.tags = [ "nvidia" ];
 
       programs.gamemode.enable = true;
 
@@ -24,7 +17,7 @@
         driSupport32Bit = true;
       };
       # Load nvidia driver for Xorg and Wayland
-      services.xserver.videoDrivers = ["nvidia"];
+      services.xserver.videoDrivers = [ "nvidia" ];
       hardware.nvidia = {
         # Modesetting is required.
         modesetting.enable = true;

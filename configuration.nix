@@ -5,9 +5,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-    ];
+  imports = [ # Include the results of the hardware scan.
+  ];
 
   # Enable flakes permanently in NixOS
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -16,7 +15,6 @@
   nix.settings.auto-optimise-store = true;
 
   services.openssh.enable = true;
-  
 
   # Define system name
   system.name = "loicdm-pcp";
@@ -24,9 +22,9 @@
   # Auto update the system
   system.autoUpgrade.enable = false;
   system.autoUpgrade.allowReboot = false;
-#   system.autoUpgrade.operation = "boot";
-#   system.autoUpgrade.dates = "daily";
-#   system.autoUpgrade.channel = "https://channels.nixos.org/nixos-unstable";
+  #   system.autoUpgrade.operation = "boot";
+  #   system.autoUpgrade.dates = "daily";
+  #   system.autoUpgrade.channel = "https://channels.nixos.org/nixos-unstable";
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

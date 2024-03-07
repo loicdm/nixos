@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
+{ lib, pkgs, config, ... }: {
   # Enable libvirtd service (virtualisation)
   virtualisation.libvirtd.enable = true;
   # Disable start of all vms on boot

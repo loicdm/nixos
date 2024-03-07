@@ -8,7 +8,6 @@
     ../xps-common.nix
   ];
 
-
   # This runs only nvidia, great for games or heavy use of render applications
 
   ##### disable intel, run nvidia only and as default

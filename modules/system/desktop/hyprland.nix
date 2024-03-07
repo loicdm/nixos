@@ -1,50 +1,43 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: {
+{ lib, pkgs, config, ... }: {
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-   programs.hyprland.enable = true;
-   services.greetd = {
-  enable = true;
-};
-programs.regreet.enable = true;
+  programs.hyprland.enable = true;
+  services.greetd = { enable = true; };
+  programs.regreet.enable = true;
   environment.systemPackages = with pkgs; [
-   keepassxc
-      nextcloud-client
-      discord
-      neovim
-          wl-clipboard
-      wireguard-tools
-      git
-      # python3
-      hunspellDicts.fr-any
-     libreoffice-qt
-#      nerdfonts
-      zoom-us
-      vlc
-      btop
-      # prismlauncher-qt5
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-            eza
-      papirus-icon-theme
+    keepassxc
+    nextcloud-client
+    discord
+    neovim
+    wl-clipboard
+    wireguard-tools
+    git
+    # python3
+    hunspellDicts.fr-any
+    libreoffice-qt
+    #      nerdfonts
+    zoom-us
+    vlc
+    btop
+    # prismlauncher-qt5
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+    eza
+    papirus-icon-theme
 
   ];
-fonts.fontDir.enable = true;
-fonts.packages = with pkgs; [
+  fonts.fontDir.enable = true;
+  fonts.packages = with pkgs;
+    [
 
-	 (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-];
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+    ];
 
-
-    xdg.portal.enable = true;
+  xdg.portal.enable = true;
 
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gtk
-	pkgs.xdg-desktop-portal-kde
+    pkgs.xdg-desktop-portal-kde
 
   ];
   xdg.portal.xdgOpenUsePortal = true;
@@ -56,12 +49,12 @@ fonts.packages = with pkgs; [
     xkb.variant = "";
   };
 
-    environment.variables = {
+  environment.variables = {
     XKB_DEFAULT_LAYOUT = "fr";
-     # GTK_USE_PORTAL = "1";
-#     PAGER = "most";
-#     MANPAGER = "nvim +Man!";
-#     EDITOR = "helix";
+    # GTK_USE_PORTAL = "1";
+    #     PAGER = "most";
+    #     MANPAGER = "nvim +Man!";
+    #     EDITOR = "helix";
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
