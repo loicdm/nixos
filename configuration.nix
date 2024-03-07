@@ -15,6 +15,9 @@
   # Auto optimize nix store
   nix.settings.auto-optimise-store = true;
 
+  services.openssh.enable = true;
+  
+
   # Define system name
   system.name = "loicdm-pcp";
 

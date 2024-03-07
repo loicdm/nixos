@@ -40,15 +40,26 @@
       vlc
       btop
       # prismlauncher-qt5
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+     # (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
       kdePackages.partitionmanager
       eza
       papirus-icon-theme
       adwaita-qt
       qadwaitadecorations
       gnome.adwaita-icon-theme
+      materia-theme
+      materia-kde-theme
+       kdePackages.qtstyleplugin-kvantum
+       libsForQt5.qtstyleplugin-kvantum
   ];
 
+fonts.fontDir.enable = true;
+fonts.packages = with pkgs; [
+
+	twitter-color-emoji
+	symbola
+	 (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+];
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;

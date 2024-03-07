@@ -5,31 +5,19 @@
   ...
 }: {
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
-
-
-  environment.plasma6.excludePackages = with pkgs; [
-  kdePackages.elisa
-  ];
-
-  programs.dconf.enable = true;
-  services.xserver.displayManager.defaultSession = "plasmawayland";
-
-
-  # Disable gnome-terminal
-  programs.gnome-terminal.enable = false;
-
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
+   programs.hyprland.enable = true;
+   services.greetd = {
+  enable = true;
+};
+programs.regreet.enable = true;
   environment.systemPackages = with pkgs; [
-  kdePackages.sddm-kcm
    keepassxc
       nextcloud-client
       discord
       neovim
-      kdePackages.kate
-      wl-clipboard
+          wl-clipboard
       wireguard-tools
       git
       # python3
@@ -40,36 +28,24 @@
       vlc
       btop
       # prismlauncher-qt5
-     # (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-      kdePackages.partitionmanager
-      eza
+      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+            eza
       papirus-icon-theme
-      adwaita-qt
-      qadwaitadecorations
-      gnome.adwaita-icon-theme
-      materia-theme
-      materia-kde-theme
-       #kdePackages.qtstyleplugin-kvantum
-       libsForQt5.qtstyleplugin-kvantum
-  ];
 
-  fonts.fontDir.enable = true;
+  ];
+fonts.fontDir.enable = true;
 fonts.packages = with pkgs; [
 
 	 (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
 ];
 
-  # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  # services.xserver.desktopManager.plasma5.enableQt5Integration = true;
 
-  services.xserver.displayManager.sddm.wayland.enable = true;
-  #services.xserver.displayManager.sddm.theme = "materia-dark" ;
-  xdg.portal.enable = true;
+    xdg.portal.enable = true;
 
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gtk
+	pkgs.xdg-desktop-portal-kde
+
   ];
   xdg.portal.xdgOpenUsePortal = true;
 
@@ -81,7 +57,8 @@ fonts.packages = with pkgs; [
   };
 
     environment.variables = {
-      GTK_USE_PORTAL = "1";
+    XKB_DEFAULT_LAYOUT = "fr";
+     # GTK_USE_PORTAL = "1";
 #     PAGER = "most";
 #     MANPAGER = "nvim +Man!";
 #     EDITOR = "helix";
