@@ -3,8 +3,8 @@
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "loicdm";
-  home.homeDirectory = "/home/loicdm";
+  home.username = "root";
+  home.homeDirectory = "/root";
   home.packages = with pkgs; [ ];
 
   dconf = {

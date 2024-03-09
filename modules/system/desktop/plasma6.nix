@@ -41,6 +41,7 @@
     materia-kde-theme
     kdePackages.qtstyleplugin-kvantum
     libsForQt5.qtstyleplugin-kvantum
+    dracula-theme
   ];
 
   fonts.fontDir.enable = true;

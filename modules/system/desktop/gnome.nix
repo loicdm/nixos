@@ -7,18 +7,28 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Packages of gnome to exclude
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany
-    gnome.gnome-terminal
 
-    #    gnome.gedit
-  ];
+  environment.gnome.excludePackages =
+    (with pkgs; [ gnome-photos gnome-tour gedit ]) ++ (with pkgs.gnome; [
+      #cheese # webcam tool
+      gnome-music
+      gnome-terminal
+      epiphany # web browser
+      geary # email reader
+      #evince # document viewer
+      gnome-characters
+      #totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
 
   environment.systemPackages = with pkgs; [
-    gnomeExtensions.dash-to-panel
-    gnomeExtensions.arcmenu
+    #gnomeExtensions.dash-to-panel
+    #gnomeExtensions.arcmenu
     gnomeExtensions.appindicator
-    gnomeExtensions.quick-settings-tweaker
+    #gnomeExtensions.quick-settings-tweaker
     gnomeExtensions.clipboard-indicator
     gnome.gnome-tweaks
     libayatana-appindicator
@@ -43,14 +53,14 @@
     # prismlauncher-qt5
     (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
     eza
-    papirus-icon-theme
     gparted
-
+    adw-gtk3
     gnome.adwaita-icon-theme
     gnome.gnome-themes-extra
+    papirus-icon-theme
   ];
 
-  programs.dconf.enable = true;
+  # programs.dconf.enable = true;
   services.xserver.displayManager.defaultSession = "gnome";
 
   # Disable gnome-terminal
@@ -87,7 +97,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  # services.xserver.libinput.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

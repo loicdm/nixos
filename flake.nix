@@ -29,8 +29,8 @@
           ./configuration.nix
           ./modules/system/boot.nix
           ./modules/system/conf.nix
-          #./modules/system/desktop/gnome.nix
-          ./modules/system/desktop/plasma6.nix
+          ./modules/system/desktop/gnome.nix
+          #./modules/system/desktop/plasma6.nix
           #./modules/system/desktop/plasma5.nix
           #./modules/system/desktop/hyprland.nix
           ./modules/system/fileSystems.nix
@@ -40,9 +40,9 @@
           ./modules/system/nixpkgs.nix
           ./modules/system/systemPackages.nix
           ./modules/system/users/loicdm.nix
+          ./modules/system/users/root.nix
           ./modules/system/virtualisation.nix
           nixos-hardware.nixosModules.dell-xps-15-9560-intel
-          #nixvim.homeManagerModules.nixvim
 
           # make home-manager as a module of nixos
           # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
@@ -53,6 +53,13 @@
             home-manager.users.loicdm = { ... }: {
               imports = [
                 ./modules/home-manager/users/loicdm.nix
+                nixvim.homeManagerModules.nixvim
+              ];
+
+            };
+            home-manager.users.root = { ... }: {
+              imports = [
+                ./modules/home-manager/users/root.nix
                 nixvim.homeManagerModules.nixvim
               ];
 
