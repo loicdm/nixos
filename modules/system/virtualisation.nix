@@ -1,12 +1,26 @@
 { lib, pkgs, config, ... }: {
-  # Enable libvirtd service (virtualisation)
-  virtualisation.libvirtd.enable = true;
-  # Disable start of all vms on boot
-  virtualisation.libvirtd.onBoot = "ignore";
   # Run libvirtd daemon as qemu-libvirtd instaed of root user
-  virtualisation.libvirtd.qemu.runAsRoot = false;
+
+  virtualisation.libvirtd = {
+    enable = true;
+    onBoot = "ignore";
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.unstable.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
+    };
+  };
+
   # Required for virt-manager
-  programs.dconf.enable = true;
   programs.virt-manager.enable = true;
 
   # Enable VirtualBox.
