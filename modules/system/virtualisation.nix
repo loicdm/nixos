@@ -23,6 +23,9 @@
   # Required for virt-manager
   programs.virt-manager.enable = true;
 
+  # nested virtualisation support 
+  boot.extraModprobeConfig = "options kvm_intel nested=1";
+
   # Enable VirtualBox.
   # In order to pass USB devices from the host to the guests,
   # the user needs to be in the vboxusers group.
