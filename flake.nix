@@ -12,10 +12,11 @@
       # url = "github:nix-community/nixvim/nixos-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    grub2-themes.url = "github:vinceliuice/grub2-themes";
   };
 
-  outputs =
-    inputs@{ self, nixpkgs, home-manager, nixos-hardware, nixvim, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, nixos-hardware, nixvim
+    , grub2-themes, ... }: {
       # Default overlay, for use in dependent flakes
       overlay = final: prev: { };
 
@@ -43,6 +44,7 @@
           ./modules/system/users/root.nix
           ./modules/system/virtualisation.nix
           nixos-hardware.nixosModules.dell-xps-15-9560-intel
+          grub2-themes.nixosModules.default
 
           # make home-manager as a module of nixos
           # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`

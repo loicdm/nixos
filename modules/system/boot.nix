@@ -13,6 +13,12 @@
   # "--modules=nativedisk btrfs ahci pata part_gpt part_msdos diskfilter mdraid1x lvm ext2"
   #];
 
+  boot.loader.grub2-theme = {
+    enable = true;
+    theme = "stylish";
+    footer = true;
+  };
+
   # Enable plymouth (boot splash screen)
   boot.plymouth.enable = true;
 
