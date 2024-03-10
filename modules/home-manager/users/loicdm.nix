@@ -17,6 +17,10 @@
   };
 
   programs = {
+    librewolf = {
+      enable = true;
+      settings = { "webgl.disabled" = false; };
+    };
     nixvim = {
       extraPackages = with pkgs; [ nixfmt ];
       enable = true;

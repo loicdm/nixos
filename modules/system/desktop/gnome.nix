@@ -1,6 +1,8 @@
 { lib, pkgs, config, ... }: {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.desktopManager.xterm.enable = false;
+  services.xserver.excludePackages = with pkgs; [ xterm ];
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -58,6 +60,8 @@
     gnome.adwaita-icon-theme
     gnome.gnome-themes-extra
     papirus-icon-theme
+    obs-studio
+    scrcpy
   ];
 
   # programs.dconf.enable = true;
@@ -89,7 +93,7 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
   xdg.portal.xdgOpenUsePortal = true;
 
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
   # Configure keymap in X11
   services.xserver = {
     xkb.layout = "fr";
