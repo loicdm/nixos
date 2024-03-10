@@ -6,7 +6,7 @@
   };
 
   fileSystems."/efi" = {
-    device = "/dev/disk/by-uuid/F98C-1800";
+    device = "/dev/disk/by-uuid/31CA-F805";
     fsType = "vfat";
   };
   # Open the luks device and mount the filesystem
