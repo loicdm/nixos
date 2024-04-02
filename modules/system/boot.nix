@@ -6,7 +6,7 @@
   boot.loader.grub.device = "nodev";
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/efi";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.useOSProber = false;
   boot.loader.timeout = null;
   # boot.loader.grub.default = 1;
   #  boot.loader.grub.extraGrubInstallArgs = [
@@ -20,15 +20,16 @@
   };
 
   # Enable plymouth (boot splash screen)
-  boot.plymouth.enable = true;
+  #boot.plymouth.enable = true;
 
   #  ! Experimental ! enable systemd in initrd
   # required to be able to enter crypt device passphrase with plymouth
   boot.initrd.systemd.enable = true;
+  boot.initrd.verbose = false;
 
   # Silent boot
   boot.consoleLogLevel = 0;
-  boot.kernelParams = [ "quiet" "splash" "udev.log_level=3" ];
+  boot.kernelParams = [ "quiet" "udev.log_level=3" ];
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "nvme" "usbhid" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];

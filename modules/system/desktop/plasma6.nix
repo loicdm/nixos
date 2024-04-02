@@ -8,9 +8,9 @@
   services.xserver.displayManager.defaultSession = "plasma";
 
   # Disable gnome-terminal
-  programs.gnome-terminal.enable = false;
+  # programs.gnome-terminal.enable = false;
 
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  # services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   environment.systemPackages = with pkgs; [
     kdePackages.sddm-kcm
@@ -34,19 +34,22 @@
     kdePackages.partitionmanager
     eza
     papirus-icon-theme
-    adwaita-qt
-    qadwaitadecorations
+    #     adwaita-qt
+    #     qadwaitadecorations
     gnome.adwaita-icon-theme
-    materia-theme
-    materia-kde-theme
-    kdePackages.qtstyleplugin-kvantum
-    libsForQt5.qtstyleplugin-kvantum
+    #     materia-theme
+    #     materia-kde-theme
+    #     kdePackages.qtstyleplugin-kvantum
+    #     libsForQt5.qtstyleplugin-kvantum
     dracula-theme
+    kdePackages.ki18n
+    libsForQt5.ki18n
+    kdePackages.qttranslations
+    libsForQt5.qt5.qttranslations
   ];
 
   fonts.fontDir.enable = true;
   fonts.packages = with pkgs; [
-
     twitter-color-emoji
     symbola
     (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
@@ -54,17 +57,18 @@
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma6.enable = true;
-  services.xserver.desktopManager.plasma6.enableQt5Integration = true;
+  services.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6.enableQt5Integration = true;
 
   services.xserver.displayManager.sddm.wayland.enable = true;
+  services.xserver.displayManager.sddm.wayland.compositor = "kwin";
   #services.xserver.displayManager.sddm.theme = "materia-dark" ;
   xdg.portal.enable = true;
 
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.xdgOpenUsePortal = true;
 
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
   # Configure keymap in X11
   services.xserver = {
     xkb.layout = "fr";

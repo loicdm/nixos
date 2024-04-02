@@ -19,6 +19,8 @@
     man-pages
     man-pages-posix
     most
+    adoptopenjdk-icedtea-web
+    virt-viewer
   ];
   programs.zsh.enable = true;
 

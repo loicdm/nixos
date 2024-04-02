@@ -18,5 +18,5 @@
   };
 
   # Configure console keymap
-  console.keyMap = "fr";
+  console.keyMap = "fr-pc";
 }

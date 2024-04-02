@@ -7,6 +7,9 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  programs.kdeconnect.enable = true;
+  programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
+  # programs.firefox.nativeMessagingHosts.gsconnect = true;
 
   # Packages of gnome to exclude
 
@@ -32,7 +35,6 @@
     gnomeExtensions.appindicator
     #gnomeExtensions.quick-settings-tweaker
     gnomeExtensions.clipboard-indicator
-    gnomeExtensions.gsconnect
     gnome.gnome-tweaks
     libayatana-appindicator
     libappindicator

@@ -31,8 +31,8 @@
           ./configuration.nix
           ./modules/system/boot.nix
           ./modules/system/conf.nix
-          ./modules/system/desktop/gnome.nix
-          #./modules/system/desktop/plasma6.nix
+          #./modules/system/desktop/gnome.nix
+          ./modules/system/desktop/plasma6.nix
           #./modules/system/desktop/plasma5.nix
           #./modules/system/desktop/hyprland.nix
           ./modules/system/fileSystems.nix
@@ -44,6 +44,7 @@
           ./modules/system/users/loicdm.nix
           ./modules/system/users/root.nix
           ./modules/system/virtualisation.nix
+          #./modules/system/k3s.nix
           nixos-hardware.nixosModules.dell-xps-15-9560-intel
           grub2-themes.nixosModules.default
 

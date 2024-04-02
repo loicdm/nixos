@@ -26,6 +26,9 @@
   # nested virtualisation support 
   boot.extraModprobeConfig = "options kvm_intel nested=1";
 
+  #virtualisation.docker.enable = true;
+  #virtualisation.docker.storageDriver = "btrfs";
+
   # Enable VirtualBox.
   # In order to pass USB devices from the host to the guests,
   # the user needs to be in the vboxusers group.
