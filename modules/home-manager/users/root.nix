@@ -13,113 +13,113 @@
   };
 
   programs = {
-    nixvim = {
-      extraPackages = with pkgs; [ nixfmt ];
-      enable = true;
-      globals = { mapleader = " "; };
-      keymaps = [
-        {
-          mode = "n";
-          key = "<leader>ff";
-          action = "<cmd>Telescope find_files<CR>";
-          options = { desc = "Find files (Telescope)"; };
-        }
-        {
-          mode = "n";
-          key = ",D";
-          action = "<cmd>lua vim.lsp.buf.declaration()<CR>";
-          options = { desc = "goto Declaration (LSP)"; };
-
-        }
-        {
-          mode = "n";
-          key = ",d";
-          action = "<cmd>lua vim.lsp.buf.definition()<CR>";
-          options = { desc = "goto declaration (LSP)"; };
-
-        }
-      ];
-
-      colorschemes.dracula = { enable = true; };
-      options = {
-        number = true; # Show line numbers
-        relativenumber = true; # Show relative line numbers
-        shiftwidth = 2; # Tab width should be 2
-      };
-
-      plugins = {
-        # auto-save.enable = true;
-        auto-session.enable = true;
-        lualine.enable = true;
-        comment-nvim.enable = true;
-        conform-nvim = {
-          enable = true;
-          formatOnSave = "{timeout_ms = 500, lsp_fallback = true}";
-          formattersByFt = {
-            nix = [ "nixfmt" ];
-            c = [ "clang_format" ];
-          };
-        };
-        barbar.enable = true;
-        gitsigns = {
-          enable = true;
-          currentLineBlame = true;
-        };
-        clangd-extensions.enable = true;
-        # dashboard.enable = true;
-        cursorline.enable = true;
-        lsp = {
-          enable = true;
-          servers = {
-            clangd.enable = true;
-            nil_ls.enable = true;
-          };
-        };
-        lsp-lines.enable = true;
-        lspkind.enable = true;
-        cmp = { enable = true; };
-        cmp-nvim-lsp.enable = true;
-        lsp-format.enable = true;
-        navbuddy = {
-          enable = true;
-          lsp.autoAttach = true;
-        };
-        navic = {
-          enable = true;
-          lsp.autoAttach = true;
-        };
-        neo-tree.enable = true;
-        nix.enable = true;
-        nvim-colorizer.enable = true;
-        # project-nvim.enable = true;
-        rainbow-delimiters.enable = true;
-
-        # };
-        telescope = {
-          enable = true;
-          extensions = {
-            file_browser = { enable = true; };
-            # frecency = {
-            #   enable = true;
-            # };
-            # fzf-native.enable = true;
-            # fzy-native.enable = true;
-            # media_files.enable = true;
-            # project-nvim.enable = true;
-            undo.enable = true;
-          };
-        };
-        todo-comments.enable = true;
-        treesitter = { enable = true; };
-        treesitter-context.enable = true;
-        treesitter-refactor.enable = true;
-        treesitter-textobjects.enable = true;
-        which-key = {
-          enable = true;
-          registrations = { "<leader>f" = "Find"; };
-        };
-      };
-    };
+#     nixvim = {
+#       extraPackages = with pkgs; [ nixfmt ];
+#       enable = true;
+#       globals = { mapleader = " "; };
+#       keymaps = [
+#         {
+#           mode = "n";
+#           key = "<leader>ff";
+#           action = "<cmd>Telescope find_files<CR>";
+#           options = { desc = "Find files (Telescope)"; };
+#         }
+#         {
+#           mode = "n";
+#           key = ",D";
+#           action = "<cmd>lua vim.lsp.buf.declaration()<CR>";
+#           options = { desc = "goto Declaration (LSP)"; };
+#
+#         }
+#         {
+#           mode = "n";
+#           key = ",d";
+#           action = "<cmd>lua vim.lsp.buf.definition()<CR>";
+#           options = { desc = "goto declaration (LSP)"; };
+#
+#         }
+#       ];
+#
+#       colorschemes.dracula = { enable = true; };
+#       options = {
+#         number = true; # Show line numbers
+#         relativenumber = true; # Show relative line numbers
+#         shiftwidth = 2; # Tab width should be 2
+#       };
+#
+#       plugins = {
+#         # auto-save.enable = true;
+#         auto-session.enable = true;
+#         lualine.enable = true;
+#         comment-nvim.enable = true;
+#         conform-nvim = {
+#           enable = true;
+#           formatOnSave = "{timeout_ms = 500, lsp_fallback = true}";
+#           formattersByFt = {
+#             nix = [ "nixfmt" ];
+#             c = [ "clang_format" ];
+#           };
+#         };
+#         barbar.enable = true;
+#         gitsigns = {
+#           enable = true;
+#           currentLineBlame = true;
+#         };
+#         clangd-extensions.enable = true;
+#         # dashboard.enable = true;
+#         cursorline.enable = true;
+#         lsp = {
+#           enable = true;
+#           servers = {
+#             clangd.enable = true;
+#             nil_ls.enable = true;
+#           };
+#         };
+#         lsp-lines.enable = true;
+#         lspkind.enable = true;
+#         cmp = { enable = true; };
+#         cmp-nvim-lsp.enable = true;
+#         lsp-format.enable = true;
+#         navbuddy = {
+#           enable = true;
+#           lsp.autoAttach = true;
+#         };
+#         navic = {
+#           enable = true;
+#           lsp.autoAttach = true;
+#         };
+#         neo-tree.enable = true;
+#         nix.enable = true;
+#         nvim-colorizer.enable = true;
+#         # project-nvim.enable = true;
+#         rainbow-delimiters.enable = true;
+#
+#         # };
+#         telescope = {
+#           enable = true;
+#           extensions = {
+#             #file_browser = { enable = true; };
+#             # frecency = {
+#             #   enable = true;
+#             # };
+#             # fzf-native.enable = true;
+#             # fzy-native.enable = true;
+#             # media_files.enable = true;
+#             # project-nvim.enable = true;
+#             undo.enable = true;
+#           };
+#         };
+#         todo-comments.enable = true;
+#         treesitter = { enable = true; };
+#         treesitter-context.enable = true;
+#         treesitter-refactor.enable = true;
+#         treesitter-textobjects.enable = true;
+#         which-key = {
+#           enable = true;
+#           registrations = { "<leader>f" = "Find"; };
+#         };
+#       };
+#     };
 
     starship = {
       enable = true;

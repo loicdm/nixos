@@ -1,26 +1,15 @@
 { lib, pkgs, config, ... }: {
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  environment.plasma6.excludePackages = with pkgs; [ kdePackages.elisa ];
-
-  programs.dconf.enable = true;
-  services.xserver.displayManager.defaultSession = "plasma";
-
-  # Disable gnome-terminal
-  # programs.gnome-terminal.enable = false;
-
-  # services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
+  hardware.opengl.enable = true;
+  security.polkit.enable = true;
+  security.pam.services.swaylock = {};
   environment.systemPackages = with pkgs; [
-    kdePackages.sddm-kcm
     keepassxc
     nextcloud-client
     discord
     #neovim
-    kdePackages.kate
     wl-clipboard
     wireguard-tools
     git
@@ -33,36 +22,10 @@
     btop
     # prismlauncher-qt5
     # (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-    kdePackages.partitionmanager
     eza
     papirus-icon-theme
-    #     adwaita-qt
-    #     qadwaitadecorations
-    gnome.adwaita-icon-theme
-    #     materia-theme
-    #     materia-kde-theme
-    #     kdePackages.qtstyleplugin-kvantum
-    #     libsForQt5.qtstyleplugin-kvantum
+    kdePackages.qtstyleplugin-kvantum
     dracula-theme
-    #kdePackages.ki18n
-    #libsForQt5.ki18n
-    #kdePackages.qttranslations
-    #libsForQt5.qt5.qttranslations
-    ((where-is-my-sddm-theme.overrideAttrs (previousAttrs: {
-      name = "where-is-my-sddm-next";
-      src = pkgs.fetchFromGitHub {
-        owner = "stepanzubkov";
-        repo = "where-is-my-sddm-theme";
-        rev = "v1.8.0";
-        hash = "sha256-/D3i4QcE5+GbiAw32bFYJ7UxW/5NAl9FqQfiQc4akzI=";
-      };
-    })).override {
-      themeConfig.General = {
-        background = toString ./assets/IMG_20230723_1508433.jpg;
-        backgroundMode = "fill";
-      };
-    })
-    xwaylandvideobridge
   ];
 
   fonts.fontDir.enable = true;
@@ -72,25 +35,22 @@
     (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
   ];
 
-  # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.desktopManager.plasma6.enableQt5Integration = true;
-
-  services.xserver.displayManager.sddm.wayland.enable = true;
-  services.xserver.displayManager.sddm.wayland.compositor = "kwin";
-  services.xserver.displayManager.sddm.theme = "where_is_my_sddm_theme";
   xdg.portal.enable = true;
+  xdg.portal.config.common.default = "*";
 
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
+    pkgs.xdg-desktop-portal-kde
+
+  ];
   xdg.portal.xdgOpenUsePortal = true;
 
   programs.firefox.enable = false;
   # Configure keymap in X11
-  services.xserver = {
-    xkb.layout = "fr";
-    xkb.variant = "";
-  };
+  #services.xserver = {
+  #  xkb.layout = "fr";
+  #  xkb.variant = "";
+  #};
 
   environment.variables = {
     GTK_USE_PORTAL = "1";
@@ -99,8 +59,12 @@
     #     EDITOR = "helix";
   };
 
+  qt.enable = true;
+  qt.style = "kvantum";
+  qt.platformTheme = "qt5ct";
+
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  # services.xserver.libinput.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "loicdm";
   home.homeDirectory = "/home/loicdm";
-  home.packages = with pkgs; [ ];
+  home.packages = with pkgs; [ swayest-workstyle neovim];
 
   dconf = {
     enable = true;
@@ -16,16 +16,104 @@
     };
   };
 
-  # wayland.windowManager.sway.enable = true;
-  #services.swayidle.enable = true;
-  #programs.swaylock.enable = true;
-  #programs.kitty.enable = true;
-  #programs.fuzzel.enable = true;
-  #  programs.waybar.enable = true;
+  wayland.windowManager.sway = {
+    enable = true;
+    config = {
+      modifier = "Mod4";
+      terminal = "kitty";
+      menu = "fuzzel -T kitty";
+      output = {
+        #"*" = {
+          #bg = "../../../assets/IMG_20230723_1508433.jpg fill";
+        #};
+      };
+      startup = [
+        #{ command = "dbus-update-activation-environment --all"; }
+        { command = "/usr/libexec/polkit-gnome-authentication-agent-1"; }
+        { command = "/lib64/libexec/pam_kwallet_init"; }
+        { command = "brightnessctl -d intel_backlight set 50%"; }
+        { command = "sworkstyle &> /tmp/sworkstyle.log"; }
+        { command = "mako"; }
+      ];
+      input = {
+        "*" = {
+          xkb_layout = "fr";
+          dwt = "enabled";
+          tap = "enabled";
+          natural_scroll = "enabled";
+          middle_emulation = "enabled";
+        };
+      };
+      keybindings = let modifier = config.wayland.windowManager.sway.config.modifier; in lib.mkOptionDefault {
+        "${modifier}+Shift+c" = "kill";
+        "${modifier}+Shift+r" = "reload";
+        "${modifier}+Shift+e" = "exec ${pkgs.sway}/bin/swaynag -t warning -m 'Vous avez appuyé sur le raccourci de sortie. Voulez-vous vraiment quitter sway ?' -B 'Oui, quitter sway' '${pkgs.sway}/bin/swaymsg exit'";
+
+        "${modifier}+ampersand" = "workspace number 1";
+        "${modifier}+eacute" = "workspace number 2";
+        "${modifier}+quotedbl" = "workspace number 3";
+        "${modifier}+apostrophe" = "workspace number 4";
+        "${modifier}+parenleft" = "workspace number 5";
+        "${modifier}+minus" = "workspace number 6";
+        "${modifier}+egrave" = "workspace number 7";
+        "${modifier}+underscore" = "workspace number 8";
+        "${modifier}+ccedilla" = "workspace number 9";
+        "${modifier}+agrave" = "workspace number 10";
+
+        "${modifier}+Shift+ampersand" = "move container to workspace number 1";
+        "${modifier}+Shift+eacute" = "move container to workspace number 2";
+        "${modifier}+Shift+quotedbl" = "move container to workspace number 3";
+        "${modifier}+Shift+apostrophe" = "move container to workspace number 4";
+        "${modifier}+Shift+parenleft" = "move container to workspace number 5";
+        "${modifier}+Shift+minus" = "move container to workspace number 6";
+        "${modifier}+Shift+egrave" = "move container to workspace number 7";
+        "${modifier}+Shift+underscore" = "move container to workspace number 8";
+        "${modifier}+Shift+ccedilla" = "move container to workspace number 9";
+        "${modifier}+Shift+agrave" = "move container to workspace number 10";
+
+
+        "${modifier}+h" = "splith";
+        "${modifier}+v" = "splitv";
+
+        "${modifier}+s" = "layout stacking";
+        "${modifier}+w" = "layout tabbed";
+        "${modifier}+e" = "layout toggle split";
+
+        "${modifier}+Shift+p" = "move scratchpad";
+        "${modifier}+p" = "scratchpad show";
+
+        "${modifier}+l" = "exec ${pkgs.swaylock}/bin/swaylock -c 282a36";
+
+      };
+      bars = [
+        { command = "${pkgs.waybar}/bin/waybar"; }
+      ];
+    };
+  };
+  services.mako = {
+    enable = true;
+  };
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      { timeout = 30; command = "${pkgs.swaylock}/bin/swaylock -f -c 282a36"; }
+      { timeout = 45; command = "${pkgs.sway}/bin/swaymsg output * power off"; resumeCommand = "${pkgs.sway}/bin/swaymsg output * power on"; }
+    ];
+    events = [
+      { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -f -c 282a36"; }
+      { event = "lock"; command = "lock"; }
+    ];
+  };
+
   programs = {
+  swaylock.enable = true;
+  kitty.enable = true;
+  fuzzel.enable = true;
+  waybar.enable = true;
+
     librewolf = {
       enable = true;
-      settings = { "webgl.disabled" = false; };
+      #settings = { "webgl.disabled" = false; };
     };
 #     nixvim = {
 #       extraPackages = with pkgs; [ nixfmt ];

@@ -6,17 +6,17 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
-      # url = "github:nix-community/nixvim/nixos-23.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+#     nixvim = {
+#       url = "github:nix-community/nixvim";
+#       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
+#       # url = "github:nix-community/nixvim/nixos-23.05";
+#       inputs.nixpkgs.follows = "nixpkgs";
+#     };
     grub2-themes.url = "github:vinceliuice/grub2-themes";
     grub2-themes.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nixos-hardware, nixvim
+  outputs = inputs@{ self, nixpkgs, home-manager, nixos-hardware
     , grub2-themes, ... }: {
       # Default overlay, for use in dependent flakes
       overlay = final: prev: { };
@@ -35,6 +35,7 @@
           ./modules/system/desktop/plasma6.nix
           #./modules/system/desktop/plasma5.nix
           #./modules/system/desktop/hyprland.nix
+          #./modules/system/desktop/waylandcomp.nix
           ./modules/system/fileSystems.nix
           ./modules/system/hardware/hardwareSupport.nix
           ./modules/system/localeAndTime.nix
@@ -57,14 +58,14 @@
             home-manager.users.loicdm = { ... }: {
               imports = [
                 ./modules/home-manager/users/loicdm.nix
-                nixvim.homeManagerModules.nixvim
+                #nixvim.homeManagerModules.nixvim
               ];
 
             };
             home-manager.users.root = { ... }: {
               imports = [
                 ./modules/home-manager/users/root.nix
-                nixvim.homeManagerModules.nixvim
+                #nixvim.homeManagerModules.nixvim
               ];
 
             };
