@@ -6,7 +6,9 @@
   boot.loader.grub.device = "nodev";
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/efi";
-  boot.loader.grub.useOSProber = false;
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.gfxmodeEfi = lib.mkDefault "1920x1200";
+  boot.loader.grub.gfxpayloadEfi = "keep";
   boot.loader.timeout = null;
   # boot.loader.grub.default = 1;
   #  boot.loader.grub.extraGrubInstallArgs = [
@@ -29,15 +31,19 @@
 
   # Silent boot
   boot.consoleLogLevel = 0;
-  boot.kernelParams = [ "quiet" "udev.log_level=3" ];
+  boot.kernelParams = [ "quiet" "udev.log_level=3" "intel_iommu=on" "iommu=pt" ];
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "nvme" "usbhid" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "vfio-pci" ];
+  boot.extraModprobeConfig = ''
+  options vfio-pci ids=10de:17c8,10de:0fb0
+'';
+  boot.blacklistedKernelModules = [ "nouveau" ];
   boot.extraModulePackages = [ ];
 
   # Enable ntfs support
-  # boot.supportedFilesystems = ["ntfs"];
+  boot.supportedFilesystems = ["ntfs"];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
 }

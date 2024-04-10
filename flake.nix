@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 #     nixvim = {
 #       url = "github:nix-community/nixvim";
 #       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
@@ -24,7 +24,7 @@
       # Used with `nixos-rebuild --flake .#<hostname>`
       # nixosConfigurations."<hostname>".config.system.build.toplevel must be a derivation
 
-      nixosConfigurations.loicdm-pcp = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.loicdm-pc = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
@@ -46,7 +46,7 @@
           ./modules/system/users/root.nix
           ./modules/system/virtualisation.nix
           #./modules/system/k3s.nix
-          nixos-hardware.nixosModules.dell-xps-15-9560-intel
+         # nixos-hardware.nixosModules.dell-xps-15-9560-intel
           grub2-themes.nixosModules.default
 
           # make home-manager as a module of nixos

@@ -113,7 +113,13 @@
 
     librewolf = {
       enable = true;
-      #settings = { "webgl.disabled" = false; };
+      settings = { "webgl.disabled" = false; };
+            package = pkgs.librewolf.override {
+  # See nixpkgs' firefox/wrapper.nix to check which options you can use
+  nativeMessagingHosts = [
+pkgs.kdePackages.plasma-browser-integration
+  ];
+};
     };
 #     nixvim = {
 #       extraPackages = with pkgs; [ nixfmt ];

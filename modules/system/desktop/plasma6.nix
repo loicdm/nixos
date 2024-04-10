@@ -41,7 +41,7 @@
     gnome.adwaita-icon-theme
     #     materia-theme
     #     materia-kde-theme
-    #     kdePackages.qtstyleplugin-kvantum
+         kdePackages.qtstyleplugin-kvantum
     #     libsForQt5.qtstyleplugin-kvantum
     dracula-theme
     #kdePackages.ki18n
@@ -63,6 +63,7 @@
       };
     })
     xwaylandvideobridge
+    looking-glass-client
   ];
 
   fonts.fontDir.enable = true;
@@ -118,18 +119,6 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-    extraConfig.pipewire = {
-      "10-clock-rate" = {
-        "context.properties" = {
-          "default.clock.rate" = 192000;
-          "default.clock.allowed-rates" = [ 44100 48000 192000 ];
-        };
-      };
-    };
+    jack.enable = false;
   };
 }

@@ -26,6 +26,7 @@
     papirus-icon-theme
     kdePackages.qtstyleplugin-kvantum
     dracula-theme
+    looking-glass-client
   ];
 
   fonts.fontDir.enable = true;

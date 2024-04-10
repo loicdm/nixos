@@ -5,7 +5,7 @@
   # paths it should manage.
   home.username = "loicdm";
   home.homeDirectory = "/home/loicdm";
-  home.packages = with pkgs; [ ];
+  home.packages = with pkgs; [ neovim ];
 
   dconf = {
     enable = true;
@@ -26,6 +26,12 @@
     librewolf = {
       enable = true;
       settings = { "webgl.disabled" = false; };
+      package = pkgs.librewolf.override {
+  # See nixpkgs' firefox/wrapper.nix to check which options you can use
+  nativeMessagingHosts = [
+pkgs.kdePackages.plasma-browser-integration
+  ];
+};
     };
 #     nixvim = {
 #       extraPackages = with pkgs; [ nixfmt ];

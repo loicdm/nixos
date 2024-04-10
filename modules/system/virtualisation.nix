@@ -1,6 +1,7 @@
 { lib, pkgs, config, ... }: {
   # Run libvirtd daemon as qemu-libvirtd instaed of root user
 
+
   virtualisation.libvirtd = {
     enable = true;
     onBoot = "ignore";
@@ -11,7 +12,7 @@
       ovmf = {
         enable = true;
         packages = [
-          (pkgs.OVMF.override {
+          (pkgs.OVMFFull.override {
             secureBoot = true;
             tpmSupport = true;
           }).fd
