@@ -38,7 +38,7 @@
           #./modules/system/desktop/waylandcomp.nix
           ./modules/system/fileSystems.nix
           ./modules/system/hardware/hardwareSupport.nix
-          ./modules/system/hardware/nvidia.nix
+          #./modules/system/hardware/nvidia.nix
 	  ./modules/system/localeAndTime.nix
           ./modules/system/networking.nix
           ./modules/system/nixpkgs.nix

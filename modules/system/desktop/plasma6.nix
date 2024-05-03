@@ -44,8 +44,8 @@
     gnome.adwaita-icon-theme
     #     materia-theme
     #     materia-kde-theme
-         kdePackages.qtstyleplugin-kvantum
-    #     libsForQt5.qtstyleplugin-kvantum
+    kdePackages.qtstyleplugin-kvantum
+    libsForQt5.qtstyleplugin-kvantum
     dracula-theme
     #kdePackages.ki18n
     #libsForQt5.ki18n
@@ -65,8 +65,10 @@
         backgroundMode = "fill";
       };
     })
-    xwaylandvideobridge
-    looking-glass-client
+    #xwaylandvideobridge
+    #looking-glass-client
+    arc-theme
+    arc-kde-theme
   ];
 
   fonts.fontDir.enable = true;

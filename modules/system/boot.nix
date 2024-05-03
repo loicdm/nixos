@@ -22,7 +22,7 @@
   };
 
   # Enable plymouth (boot splash screen)
-  #boot.plymouth.enable = true;
+  boot.plymouth.enable = true;
 
   #  ! Experimental ! enable systemd in initrd
   # required to be able to enter crypt device passphrase with plymouth
@@ -36,10 +36,10 @@
     [ "xhci_pci" "nvme" "usbhid" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "vfio-pci" ];
-  boot.extraModprobeConfig = ''
-  options vfio-pci ids=10de:17c8,10de:0fb0
-'';
-  boot.blacklistedKernelModules = [ "nouveau" ];
+#   boot.extraModprobeConfig = ''
+#   options vfio-pci ids=10de:17c8,10de:0fb0
+# '';
+  # boot.blacklistedKernelModules = [ "nouveau" ];
   boot.extraModulePackages = [ ];
 
   # Enable ntfs support
