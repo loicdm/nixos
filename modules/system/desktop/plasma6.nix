@@ -7,7 +7,9 @@
   environment.plasma6.excludePackages = with pkgs; [ kdePackages.elisa ];
 
   programs.dconf.enable = true;
-  services.xserver.displayManager.defaultSession = "plasma";
+  services.displayManager.defaultSession = "plasma";
+
+  programs.ssh.startAgent = true;
 
   # Disable gnome-terminal
   # programs.gnome-terminal.enable = false;
@@ -18,7 +20,8 @@
     kdePackages.sddm-kcm
     keepassxc
     nextcloud-client
-    discord
+    #discord
+    armcord
     #neovim
     kdePackages.kate
     wl-clipboard
@@ -74,13 +77,16 @@
   ];
 
   # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.wayland.compositor = "kwin";
   services.desktopManager.plasma6.enable = true;
   services.desktopManager.plasma6.enableQt5Integration = true;
 
-  services.xserver.displayManager.sddm.wayland.enable = true;
-  services.xserver.displayManager.sddm.wayland.compositor = "kwin";
-  services.xserver.displayManager.sddm.theme = "where_is_my_sddm_theme";
+  #services.xserver.displayManager.sddm.wayland.enable = true;
+  #services.xserver.displayManager.sddm.wayland.compositor = "kwin";
+  #services.xserver.displayManager.sddm.theme = "where_is_my_sddm_theme";
   xdg.portal.enable = true;
 
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -101,7 +107,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
