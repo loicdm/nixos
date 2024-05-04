@@ -1,5 +1,5 @@
 { lib, pkgs, config, ... }: {
-  networking.hostName = "loicdm-pcp"; # Define your hostname.
+  networking.hostName = "loicdm-pc"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -8,28 +8,28 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  services.samba.enable = true;
-  services.samba.openFirewall = true;
-  services.samba.shares = {
-    public = {
-      path = "/home/loicdm/Document/samba";
-      "read only" = false;
-      browseable = "yes";
-      "guest ok" = "yes";
-      comment = "Public samba share.";
-    };
-  };
-  services.samba-wsdd = {
-    enable = true;
-    openFirewall = true;
-  };
+#   services.samba.enable = true;
+#   services.samba.openFirewall = true;
+#   services.samba.shares = {
+#     public = {
+#       path = "/home/loicdm/Document/samba";
+#       "read only" = false;
+#       browseable = "yes";
+#       "guest ok" = "yes";
+#       comment = "Public samba share.";
+#     };
+#   };
+#   services.samba-wsdd = {
+#     enable = true;
+#     openFirewall = true;
+#   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 44 ];
-  networking.firewall.allowedUDPPorts = [ 44 ];
+#   networking.firewall.allowedTCPPorts = [ 44 ];
+#   networking.firewall.allowedUDPPorts = [ 44 ];
   # Or disable the firewall altogether.
 
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
 
   #    networking.wg-quick.interfaces = {
   #    wg0 = {

@@ -17,7 +17,7 @@
   services.openssh.enable = true;
 
   # Define system name
-  system.name = "loicdm-pcp";
+  system.name = "loicdm-pc";
 
   # Auto update the system
   system.autoUpgrade.enable = false;
