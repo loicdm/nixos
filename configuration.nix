@@ -1,54 +1,67 @@
 # Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
-  ];
+  imports =
+    [ # Include the results of the hardware scan.
+      ./modules/hardware-configuration.nix
+      ./modules/plasma6.nix
+      ./modules/localeAndTime.nix
+      ./modules/boot.nix
+      ./modules/fileSystems.nix
+      ./modules/networking.nix
+    ];
+    
+  # Define system name
+  system.name = "loicdm-pc";
 
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.loicdm = {
+    isNormalUser = true;
+    description = "Loïc Daudé Mondet";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [];
+  };
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+  
   # Enable flakes permanently in NixOS
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Auto optimize nix store
   nix.settings.auto-optimise-store = true;
-
-  services.openssh.enable = true;
-
-  # Define system name
-  system.name = "loicdm-pc";
-
+  
   # Auto update the system
   system.autoUpgrade.enable = false;
   system.autoUpgrade.allowReboot = false;
-  #   system.autoUpgrade.operation = "boot";
-  #   system.autoUpgrade.dates = "daily";
-  #   system.autoUpgrade.channel = "https://channels.nixos.org/nixos-unstable";
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+  	git
+  	eza
+  ];
+  
+  programs.zsh.enable = true;
 
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+  # Development man pages
+  documentation.dev.enable = true;
+  documentation.man = {
+    # In order to enable to mandoc man-db has to be disabled.
+    man-db.enable = true;
+    mandoc.enable = false;
+  };
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
 }
-
