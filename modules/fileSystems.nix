@@ -5,7 +5,7 @@
       options = [ "subvol=@" ];
     };
 
-  fileSystems."/boot" =
+  fileSystems."/efi" =
     { device = "/dev/disk/by-uuid/2EC5-C394";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
@@ -14,6 +14,7 @@
   fileSystems."/cloud" =
     { device = "/dev/disk/by-uuid/dd7b7ed3-431f-4945-872b-2c784fb96207";
       fsType = "btrfs";
+      options = [ "subvol=cloud2" ];
     };
 
   swapDevices = [ ];

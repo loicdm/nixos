@@ -27,7 +27,6 @@
   ];
 
   # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.wayland.compositor = "kwin";
@@ -42,8 +41,7 @@
   
   # Configure keymap in X11
   services.xserver = {
-    layout = "fr";
-    xkbVariant = "";
+    xkb.layout = "fr";
   };
 
   environment.variables = {

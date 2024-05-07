@@ -24,6 +24,7 @@
     description = "Loïc Daudé Mondet";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
+    shell = pkgs.zsh;
   };
 
   # Allow unfree packages
@@ -39,11 +40,17 @@
   system.autoUpgrade.enable = false;
   system.autoUpgrade.allowReboot = false;
 
+  security.sudo.extraConfig = "Defaults pwfeedback";
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   	git
   	eza
+  	efibootmgr
+  	neovim
+  	htop
+  	fastfetch
   ];
   
   programs.zsh.enable = true;

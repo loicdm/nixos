@@ -16,15 +16,22 @@
     zoom-us
     vlc
     btop
+    handbrake
   ];
   programs = {
     librewolf = {
       enable = true;
-      settings = { "webgl.disabled" = false; };
+          # Enable WebGL, cookies and history
+    settings = {
+      "webgl.disabled" = false;
+      "privacy.clearOnShutdown.history" = false;
+      "privacy.clearOnShutdown.cookies" = false;
+    };
       package = pkgs.librewolf.override {
   	# See nixpkgs' firefox/wrapper.nix to check which options you can use
   	nativeMessagingHosts = [
 	pkgs.kdePackages.plasma-browser-integration
+	pkgs.keepassxc
   	];
 	};
     };
