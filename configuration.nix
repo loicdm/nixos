@@ -183,11 +183,21 @@
     };
   };
 
+  environment.shellAliases = {
+  	rebuild-dry = "sudo nixos-rebuild dry-run --flake";
+  	rebuild-build = "sudo nixos-rebuild build --flake";
+  	rebuild-switch = "sudo nixos-rebuild switch --flake";
+	ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
+	ll = "ls -l";
+	la = "ls -al";
+};
+
   ############################################################
   # Environment Packages
   ############################################################
   environment.systemPackages = with pkgs; [
     sbctl
+    eza
     # man pages
     man-pages
     man-pages-posix
