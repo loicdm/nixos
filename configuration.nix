@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   ############################################################
@@ -12,7 +17,10 @@
   # Nix & System
   ############################################################
   nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   system = {
     autoUpgrade = {
       enable = false;
@@ -131,12 +139,13 @@
       enable = true;
       compositor = "kwin";
     };
-    theme =
-      "${pkgs.catppuccin-sddm.override {
+    theme = "${
+      pkgs.catppuccin-sddm.override {
         flavor = "mocha";
         accent = "mauve";
         userIcon = true;
-      }}/share/sddm/themes/catppuccin-mocha-mauve";
+      }
+    }/share/sddm/themes/catppuccin-mocha-mauve";
   };
 
   services.xserver.xkb.layout = "fr";
@@ -156,7 +165,10 @@
     isNormalUser = true;
     description = "Loïc Daudé Mondet";
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "openrazer" ];
+    extraGroups = [
+      "wheel"
+      "openrazer"
+    ];
 
     packages = with pkgs; [
       razergenie
@@ -165,6 +177,7 @@
       vesktop
       zed-editor
       nil
+      nixd
     ];
   };
 
@@ -188,13 +201,13 @@
   };
 
   environment.shellAliases = {
-  	rebuild-dry = "sudo nixos-rebuild dry-run --flake";
-  	rebuild-build = "sudo nixos-rebuild build --flake";
-  	rebuild-switch = "sudo nixos-rebuild switch --flake";
-	ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
-	ll = "ls -l";
-	la = "ls -al";
-};
+    rebuild-dry = "sudo nixos-rebuild dry-run --flake";
+    rebuild-build = "sudo nixos-rebuild build --flake";
+    rebuild-switch = "sudo nixos-rebuild switch --flake";
+    ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
+    ll = "ls -l";
+    la = "ls -al";
+  };
 
   ############################################################
   # Environment Packages
@@ -255,11 +268,10 @@
         accent = "mauve";
       };
 
-      catppuccin-papirus-folders =
-        prev.catppuccin-papirus-folders.override {
-          flavor = "mocha";
-          accent = "mauve";
-        };
+      catppuccin-papirus-folders = prev.catppuccin-papirus-folders.override {
+        flavor = "mocha";
+        accent = "mauve";
+      };
     })
   ];
 
@@ -271,18 +283,18 @@
     mandoc.enable = false;
   };
   programs.less.enable = true;
-  programs.bat = { 
+  programs.bat = {
     enable = true;
     extraPackages = with pkgs.bat-extras; [
-  			batdiff
-  			batman
-  			prettybat
-		    ];
-   settings = {
-     theme = "'Catppuccin Mocha'";
-   };
+      batdiff
+      batman
+      prettybat
+    ];
+    settings = {
+      theme = "'Catppuccin Mocha'";
+    };
   };
-  programs.neovim = { 
+  programs.neovim = {
     enable = true;
     defaultEditor = true;
     vimAlias = true;
