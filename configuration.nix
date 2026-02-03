@@ -1,59 +1,253 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./modules/hardware-configuration.nix
-      ./modules/plasma6.nix
-      ./modules/localeAndTime.nix
-      ./modules/boot.nix
-      ./modules/fileSystems.nix
-      ./modules/networking.nix
-    ];
-    
-  # Define system name
-  system.name = "loicdm-pc";
+  ############################################################
+  # Imports
+  ############################################################
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  ############################################################
+  # Nix & System
+  ############################################################
+  nix.settings.auto-optimise-store = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  system = {
+    autoUpgrade = {
+      enable = false;
+      allowReboot = false;
+    };
+    stateVersion = "25.11";
+  };
+
+  ############################################################
+  # Bootloader & Boot
+  ############################################################
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+
+      limine = {
+        enable = true;
+        secureBoot.enable = true;
+
+        style = {
+          interface.resolution = "1920x1200";
+          wallpapers = [ ];
+
+          graphicalTerminal = {
+            background = "1e1e2e";
+            brightBackground = "585b70";
+            foreground = "cdd6f4";
+            brightForeground = "cdd6f4";
+
+            palette = "1e1e2e;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
+            brightPalette = "585b70;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
+          };
+        };
+      };
+    };
+
+    kernelPackages = pkgs.linuxPackages_zen;
+
+    plymouth = {
+      enable = true;
+      theme = "catppuccin-mocha";
+      themePackages = [
+        (pkgs.catppuccin-plymouth.override {
+          variant = "mocha";
+        })
+      ];
+    };
+
+    consoleLogLevel = 3;
+    initrd = {
+      verbose = false;
+      systemd.enable = true;
+    };
+
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=auto"
+    ];
+
+    loader.timeout = null;
+  };
+
+  ############################################################
+  # Hardware
+  ############################################################
+  hardware.openrazer.enable = true;
+
+  ############################################################
+  # Networking
+  ############################################################
+  networking = {
+    hostName = "loicdm-pc";
+    networkmanager.enable = true;
+    firewall.enable = true;
+  };
+
+  ############################################################
+  # Locale & Time
+  ############################################################
+  time.timeZone = "Europe/Paris";
+
+  i18n.defaultLocale = "fr_FR.UTF-8";
+
+  console = {
+    useXkbConfig = true;
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
+    packages = [ pkgs.terminus_font ];
+  };
+
+  ############################################################
+  # Power & Performance
+  ############################################################
+  services = {
+    tuned = {
+      enable = true;
+      ppdSettings.main.default = "performance";
+    };
+
+    power-profiles-daemon.enable = false;
+  };
+
+  programs.gamemode.enable = true;
+
+  ############################################################
+  # Desktop (Plasma 6 + SDDM)
+  ############################################################
+  services.desktopManager.plasma6.enable = true;
+
+  services.displayManager.sddm = {
+    enable = true;
+    wayland = {
+      enable = true;
+      compositor = "kwin";
+    };
+    theme =
+      "${pkgs.catppuccin-sddm.override {
+        flavor = "mocha";
+        accent = "mauve";
+        userIcon = true;
+      }}/share/sddm/themes/catppuccin-mocha-mauve";
+  };
+
+  services.xserver.xkb.layout = "fr";
+
+  ############################################################
+  # Audio
+  ############################################################
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+  };
+
+  ############################################################
+  # Users
+  ############################################################
   users.users.loicdm = {
     isNormalUser = true;
     description = "Loïc Daudé Mondet";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
+    extraGroups = [ "wheel" "openrazer" ];
+
+    packages = with pkgs; [
+      razergenie
+      prismlauncher
+      bitwarden-desktop
+      vesktop
+      zed-editor
+    ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  
-  # Enable flakes permanently in NixOS
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  ############################################################
+  # Programs
+  ############################################################
+  programs = {
+    firefox.enable = true;
 
-  # Auto optimize nix store
-  nix.settings.auto-optimise-store = true;
-  
-  # Auto update the system
-  system.autoUpgrade.enable = false;
-  system.autoUpgrade.allowReboot = false;
+    fish = {
+      enable = true;
+      interactiveShellInit = ''
+        set fish_greeting
+      '';
+    };
 
+    starship = {
+      enable = true;
+      settings = import ./starship.nix;
+    };
+  };
+
+  ############################################################
+  # Environment Packages
+  ############################################################
+  environment.systemPackages = with pkgs; [
+    sbctl
+    # man pages
+    man-pages
+    man-pages-posix
+    # Catppuccin
+    catppuccin
+    catppuccin-kde
+    catppuccin-sddm
+    catppuccin-gtk
+    catppuccin-cursors.mochaMauve
+    catppuccin-cursors.mochaDark
+    catppuccin-papirus-folders
+  ];
+
+  ############################################################
+  # Fonts
+  ############################################################
+  fonts.packages = with pkgs; [
+    nerd-fonts.iosevka
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+  ];
+
+  ############################################################
+  # Security
+  ############################################################
   security.sudo.extraConfig = "Defaults pwfeedback";
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  	git
-  	eza
-  	efibootmgr
-  	neovim
-  	htop
-  	fastfetch
+  ############################################################
+  # Overlays (Catppuccin)
+  ############################################################
+  nixpkgs.overlays = [
+    (final: prev: {
+      catppuccin-kde = prev.catppuccin-kde.override {
+        flavour = [ "mocha" ];
+        accents = [ "mauve" ];
+      };
+
+      catppuccin = prev.catppuccin.override {
+        variant = "mocha";
+        accent = "mauve";
+      };
+
+      catppuccin-gtk = prev.catppuccin-gtk.override {
+        variant = "mocha";
+        accents = [ "mauve" ];
+      };
+
+      catppuccin-kvantum = prev.catppuccin-kvantum.override {
+        variant = "mocha";
+        accent = "mauve";
+      };
+
+      catppuccin-papirus-folders =
+        prev.catppuccin-papirus-folders.override {
+          flavor = "mocha";
+          accent = "mauve";
+        };
+    })
   ];
-  
-  programs.zsh.enable = true;
 
   # Development man pages
   documentation.dev.enable = true;
@@ -62,13 +256,26 @@
     man-db.enable = true;
     mandoc.enable = false;
   };
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  programs.less.enable = true;
+  programs.bat = { 
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [
+  			batdiff
+  			batman
+  			prettybat
+		    ];
+   settings = {
+     theme = "'Catppuccin Mocha'";
+   };
+  };
+  programs.neovim = { 
+    enable = true;
+    defaultEditor = true;
+    vimAlias = true;
+    viAlias = true;
+  };
+  programs.git = {
+    enable = true;
+  };
 
 }
