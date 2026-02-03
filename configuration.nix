@@ -256,6 +256,7 @@ in
       fastfetch
       htop
       btop
+      nvtopPackages.amd
 
       catppuccin-cursors.mochaMauve
       catppuccin-cursors.mochaDark
