@@ -253,6 +253,9 @@ in
       eza
       man-pages
       man-pages-posix
+      fastfetch
+      htop
+      btop
 
       catppuccin-cursors.mochaMauve
       catppuccin-cursors.mochaDark
