@@ -164,6 +164,7 @@
       bitwarden-desktop
       vesktop
       zed-editor
+      nil
     ];
   };
 
