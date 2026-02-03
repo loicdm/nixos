@@ -278,16 +278,13 @@ in
   # XDG / Portals
   ############################################################
   xdg.portal = {
-    enable = true;
     xdgOpenUsePortal = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   ############################################################
   # Fonts
   ############################################################
   fonts = {
-    fontDir.enable = true;
     packages = with pkgs; [
       nerd-fonts.iosevka
       nerd-fonts.iosevka-term
@@ -297,6 +294,27 @@ in
       twitter-color-emoji
       symbola
     ];
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = [
+          "Noto Serif"
+          "Noto Color Emoji"
+        ];
+        sansSerif = [
+          "Noto Sans"
+          "Noto Color Emoji"
+        ];
+        monospace = [
+          "Iosevka Nerd Font"
+          "Noto Color Emoji"
+        ];
+      };
+      hinting = {
+        enable = true;
+        style = "slight";
+      };
+    };
   };
 
   ############################################################
