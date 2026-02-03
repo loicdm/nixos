@@ -60,6 +60,7 @@
     plymouth = {
       enable = true;
       theme = "catppuccin-mocha";
+      font = "${pkgs.nerd-fonts.iosevka}/share/fonts/truetype/NerdFonts/Iosevka/IosevkaNerdFont-Regular.ttf";
       themePackages = [
         (pkgs.catppuccin-plymouth.override {
           variant = "mocha";
@@ -89,6 +90,8 @@
   # Hardware
   ############################################################
   hardware.openrazer.enable = true;
+  hardware.amdgpu.initrd.enable = true;
+  hardware.amdgpu.opencl.enable = true;
 
   ############################################################
   # Networking
@@ -176,6 +179,8 @@
       zed-editor
       nil
       nixd
+      obs-studio
+      (kdePackages.kdenlive.override { ffmpeg-full = pkgs.ffmpeg_7-full; })
     ];
   };
 
@@ -207,6 +212,14 @@
     la = "ls -al";
   };
 
+  environment.variables = {
+    GTK_USE_PORTAL = "1";
+  };
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.xdgOpenUsePortal = true;
+
   ############################################################
   # Environment Packages
   ############################################################
@@ -217,13 +230,28 @@
     man-pages
     man-pages-posix
     # Catppuccin
-    catppuccin
-    catppuccin-kde
-    catppuccin-sddm
-    catppuccin-gtk
     catppuccin-cursors.mochaMauve
     catppuccin-cursors.mochaDark
-    catppuccin-papirus-folders
+    (catppuccin.override {
+      variant = "mocha";
+      accent = "mauve";
+    })
+    (catppuccin-kde.override {
+      flavour = [ "mocha" ];
+      accents = [ "mauve" ];
+    })
+    (catppuccin-gtk.override {
+      variant = "mocha";
+      accents = [ "mauve" ];
+    })
+    (catppuccin-kvantum.override {
+      variant = "mocha";
+      accent = "mauve";
+    })
+    (catppuccin-papirus-folders.override {
+      flavor = "mocha";
+      accent = "mauve";
+    })
   ];
 
   ############################################################
@@ -231,10 +259,15 @@
   ############################################################
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
+    twitter-color-emoji
+    symbola
   ];
+
+  fonts.fontDir.enable = true;
 
   ############################################################
   # Security
@@ -242,36 +275,8 @@
   security.sudo.extraConfig = "Defaults pwfeedback";
 
   ############################################################
-  # Overlays (Catppuccin)
+  # Misc
   ############################################################
-  nixpkgs.overlays = [
-    (final: prev: {
-      catppuccin-kde = prev.catppuccin-kde.override {
-        flavour = [ "mocha" ];
-        accents = [ "mauve" ];
-      };
-
-      catppuccin = prev.catppuccin.override {
-        variant = "mocha";
-        accent = "mauve";
-      };
-
-      catppuccin-gtk = prev.catppuccin-gtk.override {
-        variant = "mocha";
-        accents = [ "mauve" ];
-      };
-
-      catppuccin-kvantum = prev.catppuccin-kvantum.override {
-        variant = "mocha";
-        accent = "mauve";
-      };
-
-      catppuccin-papirus-folders = prev.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "mauve";
-      };
-    })
-  ];
 
   # Development man pages
   documentation.dev.enable = true;
@@ -301,5 +306,6 @@
   programs.git = {
     enable = true;
   };
+  programs.thunderbird.enable = true;
 
 }
