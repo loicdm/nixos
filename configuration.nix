@@ -1,8 +1,11 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
+let
+  catppuccin_style = {
+    variant = "mocha";
+    accent = "mauve";
+  };
+in
 {
   ############################################################
   # Imports
@@ -12,26 +15,45 @@
   ];
 
   ############################################################
-  # Nix & System
+  # System / Nix
   ############################################################
-  nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  system = {
-    autoUpgrade = {
-      enable = false;
-      allowReboot = false;
-    };
-    stateVersion = "25.11";
+  system.stateVersion = "25.11";
+
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
+  system.autoUpgrade = {
+    enable = false;
+    allowReboot = false;
   };
 
   ############################################################
-  # Bootloader & Boot
+  # Boot
   ############################################################
   boot = {
+    kernelPackages = pkgs.linuxPackages_zen;
+    consoleLogLevel = 3;
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=auto"
+      "vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166"
+      "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
+      "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
+    ];
+
+    initrd = {
+      verbose = false;
+      systemd.enable = true;
+    };
+
     loader = {
+      timeout = null;
       efi.canTouchEfiVariables = true;
 
       limine = {
@@ -47,7 +69,6 @@
             brightBackground = "585b70";
             foreground = "cdd6f4";
             brightForeground = "cdd6f4";
-
             palette = "1e1e2e;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
             brightPalette = "585b70;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
           };
@@ -55,43 +76,28 @@
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_zen;
-
     plymouth = {
       enable = true;
       theme = "catppuccin-mocha";
       font = "${pkgs.nerd-fonts.iosevka}/share/fonts/truetype/NerdFonts/Iosevka/IosevkaNerdFont-Regular.ttf";
       themePackages = [
         (pkgs.catppuccin-plymouth.override {
-          variant = "mocha";
+          variant = catppuccin_style.variant;
         })
       ];
     };
-
-    consoleLogLevel = 3;
-    initrd = {
-      verbose = false;
-      systemd.enable = true;
-    };
-
-    kernelParams = [
-      "quiet"
-      "udev.log_level=3"
-      "systemd.show_status=auto"
-      "vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166"
-      "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
-      "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
-    ];
-
-    loader.timeout = null;
   };
 
   ############################################################
   # Hardware
   ############################################################
-  hardware.openrazer.enable = true;
-  hardware.amdgpu.initrd.enable = true;
-  hardware.amdgpu.opencl.enable = true;
+  hardware = {
+    openrazer.enable = true;
+    amdgpu = {
+      initrd.enable = true;
+      opencl.enable = true;
+    };
+  };
 
   ############################################################
   # Networking
@@ -103,10 +109,9 @@
   };
 
   ############################################################
-  # Locale & Time
+  # Locale / Console
   ############################################################
   time.timeZone = "Europe/Paris";
-
   i18n.defaultLocale = "fr_FR.UTF-8";
 
   console = {
@@ -115,18 +120,17 @@
     packages = [ pkgs.terminus_font ];
   };
 
-  ############################################################
-  # Power & Performance
-  ############################################################
-  services = {
-    tuned = {
-      enable = true;
-      ppdSettings.main.default = "performance";
-    };
+  services.xserver.xkb.layout = "fr";
 
-    power-profiles-daemon.enable = false;
+  ############################################################
+  # Power / Performance
+  ############################################################
+  services.tuned = {
+    enable = true;
+    ppdSettings.main.default = "performance";
   };
 
+  services.power-profiles-daemon.enable = false;
   programs.gamemode.enable = true;
 
   ############################################################
@@ -136,20 +140,17 @@
 
   services.displayManager.sddm = {
     enable = true;
-    wayland = {
-      enable = true;
-      compositor = "kwin";
-    };
+    wayland.enable = true;
+    wayland.compositor = "kwin";
+
     theme = "${
       pkgs.catppuccin-sddm.override {
-        flavor = "mocha";
-        accent = "mauve";
+        flavor = catppuccin_style.variant;
+        accent = catppuccin_style.accent;
         userIcon = true;
       }
     }/share/sddm/themes/catppuccin-mocha-mauve";
   };
-
-  services.xserver.xkb.layout = "fr";
 
   ############################################################
   # Audio
@@ -180,7 +181,9 @@
       nil
       nixd
       obs-studio
-      (kdePackages.kdenlive.override { ffmpeg-full = pkgs.ffmpeg_7-full; })
+      (kdePackages.kdenlive.override {
+        ffmpeg-full = pkgs.ffmpeg_7-full;
+      })
     ];
   };
 
@@ -189,123 +192,123 @@
   ############################################################
   programs = {
     firefox.enable = true;
+    thunderbird.enable = true;
+    git.enable = true;
 
     fish = {
       enable = true;
       interactiveShellInit = ''
-        set fish_greeting
+        # Désactive le greeting
+        set -g fish_greeting
+      '';
+
+      shellInit = ''
+        # Charge le thème Catppuccin Mocha
+        source ${./fish/catppuccin-mocha.fish}
       '';
     };
 
     starship = {
       enable = true;
-      settings = import ./starship.nix;
+      settings = import ./starship/starship.nix;
     };
-  };
 
-  environment.shellAliases = {
-    rebuild-dry = "sudo nixos-rebuild dry-run --flake";
-    rebuild-build = "sudo nixos-rebuild build --flake";
-    rebuild-switch = "sudo nixos-rebuild switch --flake";
-    ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
-    ll = "ls -l";
-    la = "ls -al";
-  };
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
+      viAlias = true;
+    };
 
-  environment.variables = {
-    GTK_USE_PORTAL = "1";
-  };
+    bat = {
+      enable = true;
+      settings.theme = "'Catppuccin Mocha'";
+      extraPackages = with pkgs.bat-extras; [
+        batdiff
+        batman
+        prettybat
+      ];
+    };
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  xdg.portal.xdgOpenUsePortal = true;
+    less.enable = true;
+  };
 
   ############################################################
-  # Environment Packages
+  # Environment
   ############################################################
-  environment.systemPackages = with pkgs; [
-    sbctl
-    eza
-    # man pages
-    man-pages
-    man-pages-posix
-    # Catppuccin
-    catppuccin-cursors.mochaMauve
-    catppuccin-cursors.mochaDark
-    (catppuccin.override {
-      variant = "mocha";
-      accent = "mauve";
-    })
-    (catppuccin-kde.override {
-      flavour = [ "mocha" ];
-      accents = [ "mauve" ];
-    })
-    (catppuccin-gtk.override {
-      variant = "mocha";
-      accents = [ "mauve" ];
-    })
-    (catppuccin-kvantum.override {
-      variant = "mocha";
-      accent = "mauve";
-    })
-    (catppuccin-papirus-folders.override {
-      flavor = "mocha";
-      accent = "mauve";
-    })
-  ];
+  environment = {
+    variables.GTK_USE_PORTAL = "1";
+
+    shellAliases = {
+      rebuild-dry = "sudo nixos-rebuild dry-run --flake";
+      rebuild-build = "sudo nixos-rebuild build --flake";
+      rebuild-switch = "sudo nixos-rebuild switch --flake";
+      ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
+      ll = "ls -l";
+      la = "ls -al";
+    };
+
+    systemPackages = with pkgs; [
+      sbctl
+      eza
+      man-pages
+      man-pages-posix
+
+      catppuccin-cursors.mochaMauve
+      catppuccin-cursors.mochaDark
+
+      (catppuccin.override catppuccin_style)
+      (catppuccin-kde.override {
+        flavour = [ catppuccin_style.variant ];
+        accents = [ catppuccin_style.accent ];
+      })
+      (catppuccin-gtk.override {
+        variant = catppuccin_style.variant;
+        accents = [ catppuccin_style.accent ];
+      })
+      (catppuccin-kvantum.override catppuccin_style)
+      (catppuccin-papirus-folders.override {
+        flavor = catppuccin_style.variant;
+        accent = catppuccin_style.accent;
+      })
+    ];
+  };
+
+  ############################################################
+  # XDG / Portals
+  ############################################################
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
   ############################################################
   # Fonts
   ############################################################
-  fonts.packages = with pkgs; [
-    nerd-fonts.iosevka
-    nerd-fonts.iosevka-term
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-color-emoji
-    twitter-color-emoji
-    symbola
-  ];
-
-  fonts.fontDir.enable = true;
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [
+      nerd-fonts.iosevka
+      nerd-fonts.iosevka-term
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji
+      twitter-color-emoji
+      symbola
+    ];
+  };
 
   ############################################################
-  # Security
+  # Security / Docs
   ############################################################
   security.sudo.extraConfig = "Defaults pwfeedback";
 
-  ############################################################
-  # Misc
-  ############################################################
-
-  # Development man pages
-  documentation.dev.enable = true;
-  documentation.man = {
-    # In order to enable to mandoc man-db has to be disabled.
-    man-db.enable = true;
-    mandoc.enable = false;
-  };
-  programs.less.enable = true;
-  programs.bat = {
-    enable = true;
-    extraPackages = with pkgs.bat-extras; [
-      batdiff
-      batman
-      prettybat
-    ];
-    settings = {
-      theme = "'Catppuccin Mocha'";
+  documentation = {
+    dev.enable = true;
+    man = {
+      man-db.enable = true;
+      mandoc.enable = false;
     };
   };
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    vimAlias = true;
-    viAlias = true;
-  };
-  programs.git = {
-    enable = true;
-  };
-  programs.thunderbird.enable = true;
-
 }
