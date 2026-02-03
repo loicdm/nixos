@@ -2,5 +2,5 @@
 
 to use run in this repo: 
 ```bash
-sudo nixos-rebuild switch --flake .#loicdm-pcp --upgrade-all
+sudo nixos-rebuild switch --flake .#loicdm-pc --upgrade-all
 ```
