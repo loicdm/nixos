@@ -143,13 +143,13 @@ in
     wayland.enable = true;
     wayland.compositor = "kwin";
 
-    theme = "${
-      pkgs.catppuccin-sddm.override {
-        flavor = catppuccin_style.variant;
-        accent = catppuccin_style.accent;
-        userIcon = true;
-      }
-    }/share/sddm/themes/catppuccin-mocha-mauve";
+    # theme = "${
+    #   pkgs.catppuccin-sddm.override {
+    #     flavor = catppuccin_style.variant;
+    #     accent = catppuccin_style.accent;
+    #     userIcon = true;
+    #   }
+    # }/share/sddm/themes/catppuccin-mocha-mauve";
   };
 
   ############################################################
@@ -184,6 +184,7 @@ in
       (kdePackages.kdenlive.override {
         ffmpeg-full = pkgs.ffmpeg_7-full;
       })
+      onlyoffice-desktopeditors
     ];
   };
 
@@ -231,6 +232,16 @@ in
     };
 
     less.enable = true;
+
+    steam = {
+      enable = true; # Master switch, already covered in installation
+      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+      dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
+      extraCompatPackages = with pkgs; [
+        proton-ge-bin
+      ];
+    };
+
   };
 
   ############################################################
@@ -275,6 +286,7 @@ in
         flavor = catppuccin_style.variant;
         accent = catppuccin_style.accent;
       })
+      kdePackages.sddm-kcm
     ];
   };
 
