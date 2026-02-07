@@ -175,69 +175,12 @@ in
       "wheel"
       "openrazer"
     ];
-
-    packages = with pkgs; [
-      razergenie
-      prismlauncher
-      bitwarden-desktop
-      vesktop
-      zed-editor
-      nil
-      nixd
-      obs-studio
-      # (kdePackages.kdenlive.override {
-      #   ffmpeg-full = pkgs.ffmpeg_7-full;
-      # })
-      kdePackages.kdenlive
-      onlyoffice-desktopeditors
-    ];
   };
 
   ############################################################
   # Programs
   ############################################################
   programs = {
-    firefox.enable = true;
-    thunderbird.enable = true;
-    git.enable = true;
-
-    fish = {
-      enable = true;
-      interactiveShellInit = ''
-        # Désactive le greeting
-        set -g fish_greeting
-      '';
-
-      shellInit = ''
-        # Charge le thème Catppuccin Mocha
-        source ${./fish/catppuccin-mocha.fish}
-      '';
-    };
-
-    starship = {
-      enable = true;
-      settings = import ./starship/starship.nix;
-    };
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-      viAlias = true;
-    };
-
-    bat = {
-      enable = true;
-      settings.theme = "'Catppuccin Mocha'";
-      extraPackages = with pkgs.bat-extras; [
-        batdiff
-        batman
-        prettybat
-      ];
-    };
-
-    less.enable = true;
-
     steam = {
       enable = true; # Master switch, already covered in installation
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -253,17 +196,6 @@ in
   # Environment
   ############################################################
   environment = {
-    variables.GTK_USE_PORTAL = "1";
-
-    shellAliases = {
-      rebuild-dry = "sudo nixos-rebuild dry-run --flake";
-      rebuild-build = "sudo nixos-rebuild build --flake";
-      rebuild-switch = "sudo nixos-rebuild switch --flake";
-      ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
-      ll = "ls -l";
-      la = "ls -al";
-    };
-
     systemPackages = with pkgs; [
       sbctl
       eza
@@ -274,38 +206,14 @@ in
       btop
       nvtopPackages.amd
 
-      catppuccin-cursors.mochaMauve
-      catppuccin-cursors.mochaDark
-
-      (catppuccin.override catppuccin_style)
-      (catppuccin-kde.override {
-        flavour = [ catppuccin_style.variant ];
-        accents = [ catppuccin_style.accent ];
-      })
-      (catppuccin-gtk.override {
-        variant = catppuccin_style.variant;
-        accents = [ catppuccin_style.accent ];
-      })
-      (catppuccin-kvantum.override catppuccin_style)
-      (catppuccin-papirus-folders.override {
-        flavor = catppuccin_style.variant;
-        accent = catppuccin_style.accent;
-      })
-      kdePackages.sddm-kcm
     ];
-  };
-
-  ############################################################
-  # XDG / Portals
-  ############################################################
-  xdg.portal = {
-    xdgOpenUsePortal = true;
   };
 
   ############################################################
   # Fonts
   ############################################################
   fonts = {
+    fontconfig.enable = true;
     packages = with pkgs; [
       nerd-fonts.iosevka
       nerd-fonts.iosevka-term
@@ -315,27 +223,6 @@ in
       twitter-color-emoji
       symbola
     ];
-    fontconfig = {
-      enable = true;
-      defaultFonts = {
-        serif = [
-          "Noto Serif"
-          "Noto Color Emoji"
-        ];
-        sansSerif = [
-          "Noto Sans"
-          "Noto Color Emoji"
-        ];
-        monospace = [
-          "Iosevka Nerd Font"
-          "Noto Color Emoji"
-        ];
-      };
-      hinting = {
-        enable = true;
-        style = "slight";
-      };
-    };
   };
 
   ############################################################
