@@ -1,11 +1,5 @@
 { pkgs, ... }:
 
-let
-  catppuccin_style = {
-    variant = "mocha";
-    accent = "mauve";
-  };
-in
 {
   ############################################################
   # Home Manager identity
@@ -37,23 +31,6 @@ in
       nil
       nixd
 
-      # Theming
-      catppuccin-cursors.mochaMauve
-      catppuccin-cursors.mochaDark
-
-      (catppuccin.override catppuccin_style)
-      (catppuccin-kde.override {
-        flavour = [ catppuccin_style.variant ];
-        accents = [ catppuccin_style.accent ];
-      })
-      (catppuccin-gtk.override {
-        variant = catppuccin_style.variant;
-        accents = [ catppuccin_style.accent ];
-      })
-      (catppuccin-papirus-folders.override {
-        flavor = catppuccin_style.variant;
-        accent = catppuccin_style.accent;
-      })
     ];
   };
 
@@ -101,71 +78,6 @@ in
       };
     };
 
-    ##########################################################
-    # Dev tools
-    ##########################################################
-    git.enable = true;
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-      viAlias = true;
-    };
-
-    ##########################################################
-    # Shell
-    ##########################################################
-    fish = {
-      enable = true;
-
-      interactiveShellInit = ''
-        # Désactive le greeting
-        set -g fish_greeting
-
-        # Bitwarden SSH Agent socket
-        set --export SSH_AUTH_SOCK '/home/loicdm/.bitwarden-ssh-agent.sock'
-      '';
-
-      shellInit = ''
-        # Charge le thème Catppuccin Mocha
-        source ${../fish/catppuccin-mocha.fish}
-      '';
-
-      shellAliases = {
-        rebuild-dry = "sudo nixos-rebuild dry-run --flake";
-        rebuild-build = "sudo nixos-rebuild build --flake";
-        rebuild-switch = "sudo nixos-rebuild switch --flake";
-
-        ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
-        ll = "ls -l";
-        la = "ls -al";
-      };
-      functions.nsp = {
-        body = ''
-          nix-shell -p $argv --command fish
-        '';
-      };
-    };
-
-    starship = {
-      enable = true;
-      settings = import ../starship/starship.nix;
-    };
-
-    ##########################################################
-    # CLI utilities
-    ##########################################################
-    bat = {
-      enable = true;
-      config.theme = "Catppuccin Mocha";
-
-      extraPackages = with pkgs.bat-extras; [
-        batdiff
-        batman
-        prettybat
-      ];
-    };
   };
 
   ############################################################
