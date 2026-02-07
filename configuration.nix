@@ -176,6 +176,7 @@ in
       "openrazer"
     ];
   };
+  users.users.root.shell = pkgs.fish;
 
   ############################################################
   # Programs
@@ -205,6 +206,7 @@ in
       htop
       btop
       nvtopPackages.amd
+      kdePackages.sddm-kcm
     ];
   };
 

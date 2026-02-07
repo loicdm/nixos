@@ -11,8 +11,8 @@ in
   # Home Manager identity
   ############################################################
   home = {
-    username = "loicdm";
-    homeDirectory = "/home/loicdm";
+    username = "root";
+    homeDirectory = "/root";
     stateVersion = "25.11";
 
     sessionVariables = {
@@ -22,16 +22,6 @@ in
     packages = with pkgs; [
       # CLI
       eza
-
-      # Apps
-      razergenie
-      prismlauncher
-      bitwarden-desktop
-      vesktop
-      zed-editor
-      obs-studio
-      kdePackages.kdenlive
-      onlyoffice-desktopeditors
 
       # Nix tooling
       nil
@@ -54,6 +44,7 @@ in
         flavor = catppuccin_style.variant;
         accent = catppuccin_style.accent;
       })
+
     ];
   };
 
@@ -88,20 +79,6 @@ in
     home-manager.enable = true;
 
     ##########################################################
-    # Browser / Mail
-    ##########################################################
-    firefox.enable = true;
-
-    thunderbird = {
-      enable = true;
-      profiles = {
-        loicdm = {
-          isDefault = true;
-        };
-      };
-    };
-
-    ##########################################################
     # Dev tools
     ##########################################################
     git.enable = true;
@@ -122,9 +99,6 @@ in
       interactiveShellInit = ''
         # Désactive le greeting
         set -g fish_greeting
-
-        # Bitwarden SSH Agent socket
-        set --export SSH_AUTH_SOCK '/home/loicdm/.bitwarden-ssh-agent.sock'
       '';
 
       shellInit = ''
@@ -133,9 +107,9 @@ in
       '';
 
       shellAliases = {
-        rebuild-dry = "sudo nixos-rebuild dry-run --flake";
-        rebuild-build = "sudo nixos-rebuild build --flake";
-        rebuild-switch = "sudo nixos-rebuild switch --flake";
+        rebuild-dry = "nixos-rebuild dry-run --flake";
+        rebuild-build = "nixos-rebuild build --flake";
+        rebuild-switch = "nixos-rebuild switch --flake";
 
         ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
         ll = "ls -l";

@@ -36,6 +36,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.loicdm = import ./home/loicdm.nix;
+            home-manager.users.root = import ./home/root.nix;
           }
         ];
       };
