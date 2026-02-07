@@ -1,4 +1,5 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
+
 let
   catppuccin_style = {
     variant = "mocha";
@@ -6,94 +7,134 @@ let
   };
 in
 {
-  home.username = "loicdm";
-  home.homeDirectory = "/home/loicdm";
-
-  home.stateVersion = "25.11";
-
   ############################################################
-  # Home packages (user)
+  # Home Manager identity
   ############################################################
-  home.packages = with pkgs; [
-    razergenie
-    prismlauncher
-    bitwarden-desktop
-    vesktop
-    zed-editor
-    nil
-    nixd
-    obs-studio
-    kdePackages.kdenlive
-    onlyoffice-desktopeditors
+  home = {
+    username = "loicdm";
+    homeDirectory = "/home/loicdm";
+    stateVersion = "25.11";
 
-    catppuccin-cursors.mochaMauve
-    catppuccin-cursors.mochaDark
-
-    (catppuccin.override catppuccin_style)
-    (catppuccin-kde.override {
-      flavour = [ catppuccin_style.variant ];
-      accents = [ catppuccin_style.accent ];
-    })
-    (catppuccin-gtk.override {
-      variant = catppuccin_style.variant;
-      accents = [ catppuccin_style.accent ];
-    })
-    (catppuccin-kvantum.override catppuccin_style)
-    (catppuccin-papirus-folders.override {
-      flavor = catppuccin_style.variant;
-      accent = catppuccin_style.accent;
-    })
-    kdePackages.sddm-kcm
-
-  ];
-
-  home.sessionVariables = {
-    GTK_USE_PORTAL = "1";
-  };
-
-  fonts = {
-    fontconfig = {
-      enable = true;
-      defaultFonts = {
-        serif = [
-          "Noto Serif"
-          "Noto Color Emoji"
-        ];
-        sansSerif = [
-          "Noto Sans"
-          "Noto Color Emoji"
-        ];
-        monospace = [
-          "Iosevka Nerd Font"
-          "Noto Color Emoji"
-        ];
-      };
-      hinting = {
-        enable = true;
-        style = "slight";
-      };
+    sessionVariables = {
+      GTK_USE_PORTAL = "1";
     };
+
+    packages = with pkgs; [
+      # CLI
+      eza
+
+      # Apps
+      razergenie
+      prismlauncher
+      bitwarden-desktop
+      vesktop
+      zed-editor
+      obs-studio
+      kdePackages.kdenlive
+      onlyoffice-desktopeditors
+
+      # Nix tooling
+      nil
+      nixd
+
+      # Theming
+      catppuccin-cursors.mochaMauve
+      catppuccin-cursors.mochaDark
+
+      (catppuccin.override catppuccin_style)
+      (catppuccin-kde.override {
+        flavour = [ catppuccin_style.variant ];
+        accents = [ catppuccin_style.accent ];
+      })
+      (catppuccin-gtk.override {
+        variant = catppuccin_style.variant;
+        accents = [ catppuccin_style.accent ];
+      })
+      (catppuccin-papirus-folders.override {
+        flavor = catppuccin_style.variant;
+        accent = catppuccin_style.accent;
+      })
+
+      # KDE tools
+      kdePackages.sddm-kcm
+    ];
   };
 
   ############################################################
-  # Programs (user-level)
+  # Fonts (user-level fontconfig)
+  ############################################################
+  fonts.fontconfig = {
+    enable = true;
+
+    defaultFonts = {
+      serif = [
+        "Noto Serif"
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "Noto Sans"
+        "Noto Color Emoji"
+      ];
+      monospace = [
+        "Iosevka Nerd Font"
+        "Noto Color Emoji"
+      ];
+    };
+
+    hinting = "slight";
+  };
+
+  ############################################################
+  # Programs
   ############################################################
   programs = {
+    home-manager.enable = true;
+
+    ##########################################################
+    # Browser / Mail
+    ##########################################################
     firefox.enable = true;
-    thunderbird.enable = true;
+
+    thunderbird = {
+      enable = true;
+      profiles = {
+        loicdm = {
+          isDefault = true;
+        };
+      };
+    };
+
+    ##########################################################
+    # Dev tools
+    ##########################################################
     git.enable = true;
 
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
+      viAlias = true;
+    };
+
+    ##########################################################
+    # Shell
+    ##########################################################
     fish = {
       enable = true;
+
       interactiveShellInit = ''
         # Désactive le greeting
         set -g fish_greeting
+
+        # Bitwarden SSH Agent socket
+        set --export SSH_AUTH_SOCK '/home/loicdm/.bitwarden-ssh-agent.sock'
       '';
 
       shellInit = ''
         # Charge le thème Catppuccin Mocha
         source ${../fish/catppuccin-mocha.fish}
       '';
+
       shellAliases = {
         rebuild-dry = "sudo nixos-rebuild dry-run --flake";
         rebuild-build = "sudo nixos-rebuild build --flake";
@@ -103,7 +144,6 @@ in
         ll = "ls -l";
         la = "ls -al";
       };
-
     };
 
     starship = {
@@ -111,16 +151,13 @@ in
       settings = import ../starship/starship.nix;
     };
 
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-      viAlias = true;
-    };
-
+    ##########################################################
+    # CLI utilities
+    ##########################################################
     bat = {
       enable = true;
       config.theme = "Catppuccin Mocha";
+
       extraPackages = with pkgs.bat-extras; [
         batdiff
         batman
@@ -129,9 +166,10 @@ in
     };
   };
 
+  ############################################################
+  # XDG / Portals
+  ############################################################
   xdg.portal = {
     xdgOpenUsePortal = true;
   };
-
-  programs.home-manager.enable = true;
 }

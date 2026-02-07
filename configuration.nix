@@ -181,6 +181,7 @@ in
   # Programs
   ############################################################
   programs = {
+    fish.enable = true;
     steam = {
       enable = true; # Master switch, already covered in installation
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -198,14 +199,12 @@ in
   environment = {
     systemPackages = with pkgs; [
       sbctl
-      eza
       man-pages
       man-pages-posix
       fastfetch
       htop
       btop
       nvtopPackages.amd
-
     ];
   };
 
