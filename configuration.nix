@@ -104,6 +104,15 @@ in
   };
 
   ############################################################
+  # Virtualisation
+  ############################################################
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  };
+
+  ############################################################
   # Networking
   ############################################################
   networking = {
@@ -174,6 +183,7 @@ in
     extraGroups = [
       "wheel"
       "openrazer"
+      "libvirtd"
     ];
   };
   users.users.root.shell = pkgs.fish;
@@ -183,6 +193,7 @@ in
   ############################################################
   programs = {
     fish.enable = true;
+    virt-manager.enable = true;
     steam = {
       enable = true; # Master switch, already covered in installation
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
