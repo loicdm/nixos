@@ -67,7 +67,18 @@
     ##########################################################
     # Browser / Mail
     ##########################################################
-    firefox.enable = true;
+    firefox = {
+      enable = true;
+      nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ];
+      profiles = {
+        loicdm = {
+          isDefault = true;
+          settings = {
+            "widget.use-xdg-desktop-portal.file-picker" = 1;
+          };
+        };
+      };
+    };
 
     thunderbird = {
       enable = true;

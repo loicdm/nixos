@@ -208,7 +208,7 @@ in
 
       shellInit = ''
         # Charge le thème Catppuccin Mocha
-        source ${../fish/catppuccin-mocha.fish}
+        source ${./fish/catppuccin-mocha.fish}
       '';
 
       shellAliases = {
@@ -216,20 +216,18 @@ in
         rebuild-build = "sudo nixos-rebuild build --flake";
         rebuild-switch = "sudo nixos-rebuild switch --flake";
 
+        ns = "nix-shell --command fish";
+        nsp = "ns -p";
+
         ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
         ll = "ls -l";
         la = "ls -al";
-      };
-      functions.nsp = {
-        body = ''
-          nix-shell -p $argv --command fish
-        '';
       };
     };
 
     starship = {
       enable = true;
-      settings = import ../starship/starship.nix;
+      settings = import ./starship/starship.nix;
     };
 
     ##########################################################
@@ -249,7 +247,7 @@ in
     ##########################################################
     bat = {
       enable = true;
-      config.theme = "Catppuccin Mocha";
+      settings.theme = "Catppuccin Mocha";
 
       extraPackages = with pkgs.bat-extras; [
         batdiff
