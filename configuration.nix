@@ -301,6 +301,7 @@ in
         flavor = catppuccin_style.variant;
         accent = catppuccin_style.accent;
       })
+      dnsmasq
 
     ];
   };
