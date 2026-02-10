@@ -63,7 +63,7 @@ in
       limine = {
         enable = true;
         secureBoot.enable = true;
-        validateChecksums = false;
+        validateChecksums = lib.mkForce false;
 
         style = {
           interface.resolution = "1920x1200";
