@@ -63,6 +63,7 @@ in
       limine = {
         enable = true;
         secureBoot.enable = true;
+        enableEditor = true;
 
         style = {
           interface.resolution = "1920x1200";
