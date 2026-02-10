@@ -300,6 +300,16 @@ in
       dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
       extraCompatPackages = with pkgs; [
         proton-ge-bin
+        catppuccin-cursors.mochaMauve
+        catppuccin-cursors.mochaDark
+        (catppuccin-kde.override {
+          flavour = [ catppuccin_style.variant ];
+          accents = [ catppuccin_style.accent ];
+        })
+        (catppuccin-gtk.override {
+          variant = catppuccin_style.variant;
+          accents = [ catppuccin_style.accent ];
+        })
       ];
     };
 
