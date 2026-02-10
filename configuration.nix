@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   catppuccin_style = {
@@ -166,6 +166,27 @@ in
   };
 
   ############################################################
+  # Specialisations
+  ############################################################
+  # specialisation.gnome.configuration = {
+  #   # Désactive KDE
+  #   services.desktopManager.plasma6.enable = lib.mkForce false;
+
+  #   # Active GNOME
+  #   services.xserver.displayManager.gdm.enable = true;
+  #   services.xserver.desktopManager.gnome.enable = true;
+
+  #   # Désactive SDDM (sinon conflit avec GDM)
+  #   services.displayManager.sddm.enable = lib.mkForce false;
+
+  #   # (optionnel) virer des paquets KDE typiques si tu veux
+  #   environment.systemPackages = with pkgs; [
+  #     gnome-tweaks
+  #     gnomeExtensions.appindicator
+  #   ];
+  # };
+
+  ############################################################
   # Audio
   ############################################################
   services.pipewire = {
@@ -212,9 +233,9 @@ in
       '';
 
       shellAliases = {
-        rebuild-dry = "sudo nixos-rebuild dry-run --flake";
-        rebuild-build = "sudo nixos-rebuild build --flake";
-        rebuild-switch = "sudo nixos-rebuild switch --flake";
+        rdry = "sudo nixos-rebuild dry-run --flake";
+        rbuild = "sudo nixos-rebuild build --flake";
+        rswitch = "sudo nixos-rebuild switch --flake";
 
         ns = "nix-shell --command fish";
         nsp = "ns -p";

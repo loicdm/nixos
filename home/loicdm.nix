@@ -26,6 +26,7 @@
       obs-studio
       kdePackages.kdenlive
       onlyoffice-desktopeditors
+      zapzap
 
       # Nix tooling
       nil
