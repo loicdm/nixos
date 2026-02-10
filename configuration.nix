@@ -198,17 +198,31 @@ in
   ############################################################
   # Users
   ############################################################
-  users.users.loicdm = {
-    isNormalUser = true;
-    description = "Loïc Daudé Mondet";
-    shell = pkgs.fish;
-    extraGroups = [
-      "wheel"
-      "openrazer"
-      "libvirtd"
-    ];
+  users.users = {
+    loicdm = {
+      isNormalUser = true;
+      description = "Loïc Daudé Mondet";
+      shell = pkgs.fish;
+      extraGroups = [
+        "wheel"
+        "openrazer"
+        "libvirtd"
+      ];
+    };
+    sasha = {
+      isNormalUser = true;
+      description = "Claire Perreaux";
+      shell = pkgs.fish;
+      extraGroups = [
+        "wheel"
+        "openrazer"
+        "libvirtd"
+      ];
+    };
+    root = {
+      shell = pkgs.fish;
+    };
   };
-  users.users.root.shell = pkgs.fish;
 
   ############################################################
   # Programs
