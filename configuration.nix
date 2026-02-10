@@ -302,18 +302,6 @@ in
         proton-ge-bin
         catppuccin-cursors.mochaMauve
         catppuccin-cursors.mochaDark
-        (catppuccin-kde.override {
-          flavour = [ catppuccin_style.variant ];
-          accents = [ catppuccin_style.accent ];
-        })
-        (catppuccin-gtk.override {
-          variant = catppuccin_style.variant;
-          accents = [ catppuccin_style.accent ];
-        })
-        (catppuccin-papirus-folders.override {
-          flavor = catppuccin_style.variant;
-          accent = catppuccin_style.accent;
-        })
       ];
     };
 
