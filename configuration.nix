@@ -320,6 +320,7 @@ in
       nvtopPackages.amd
       kdePackages.sddm-kcm
       efibootmgr
+      ntfs3g
 
       # Theming
       catppuccin-cursors.mochaMauve
