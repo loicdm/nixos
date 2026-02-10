@@ -310,6 +310,10 @@ in
           variant = catppuccin_style.variant;
           accents = [ catppuccin_style.accent ];
         })
+        (catppuccin-papirus-folders.override {
+          flavor = catppuccin_style.variant;
+          accent = catppuccin_style.accent;
+        })
       ];
     };
 
