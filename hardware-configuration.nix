@@ -21,7 +21,13 @@
     "usbhid"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.kernelModules = [
+    "dm-snapshot"
+    "dm_mod"
+    "dm_mirror"
+    "dm_snapshot"
+    "dm_thin_pool"
+  ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 

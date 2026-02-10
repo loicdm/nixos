@@ -103,6 +103,7 @@ in
       opencl.enable = true;
     };
   };
+  services.lvm.dmeventd.enable = true;
 
   ############################################################
   # Virtualisation
@@ -283,7 +284,7 @@ in
     ##########################################################
     bat = {
       enable = true;
-      settings.theme = "Catppuccin Mocha";
+      settings.theme = "'Catppuccin Mocha'";
 
       extraPackages = with pkgs.bat-extras; [
         batdiff

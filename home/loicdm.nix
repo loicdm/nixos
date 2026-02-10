@@ -28,6 +28,7 @@
       gparted
       onlyoffice-desktopeditors
       zapzap
+      mpv
 
       # Nix tooling
       nil
