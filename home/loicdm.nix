@@ -26,7 +26,6 @@
       obs-studio
       kdePackages.kdenlive
       gparted
-      kdePackages.partitionmanager
       onlyoffice-desktopeditors
       zapzap
 
