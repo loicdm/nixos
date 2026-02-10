@@ -302,7 +302,7 @@ in
       ];
     };
 
-    programs.partition-manager.enable = true;
+    partition-manager.enable = true;
 
   };
 
