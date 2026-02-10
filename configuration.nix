@@ -63,6 +63,7 @@ in
       limine = {
         enable = true;
         secureBoot.enable = true;
+        validateChecksums = false;
 
         style = {
           interface.resolution = "1920x1200";
@@ -302,6 +303,7 @@ in
       btop
       nvtopPackages.amd
       kdePackages.sddm-kcm
+      efibootmgr
 
       # Theming
       catppuccin-cursors.mochaMauve
