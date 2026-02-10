@@ -5,7 +5,7 @@
   # Home Manager identity
   ############################################################
   home = {
-    username = "loicdm";
+    username = "sasha";
     homeDirectory = "/home/sasha";
     stateVersion = "25.11";
 
