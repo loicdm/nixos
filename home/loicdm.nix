@@ -25,6 +25,7 @@
       zed-editor
       obs-studio
       kdePackages.kdenlive
+      davinci-resolve
       gparted
       onlyoffice-desktopeditors
       zapzap
