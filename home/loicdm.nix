@@ -34,6 +34,7 @@
       # Nix tooling
       nil
       nixd
+      nixbit
 
     ];
   };
