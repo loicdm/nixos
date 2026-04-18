@@ -18,7 +18,7 @@
       eza
 
       # Apps
-      razergenie
+      #razergenie
       prismlauncher
       bitwarden-desktop
       vesktop

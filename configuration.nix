@@ -64,6 +64,11 @@ in
         enable = true;
         secureBoot.enable = true;
         enableEditor = true;
+        extraEntries = ''
+          /Windows
+            protocol: efi
+            path: boot():/EFI/Microsoft/Boot/bootmgfw.efi
+        '';
 
         style = {
           interface.resolution = "1920x1200";
@@ -97,13 +102,14 @@ in
   # Hardware
   ############################################################
   hardware = {
-    openrazer.enable = true;
+    #openrazer.enable = true;
+    wooting.enable = true;
     amdgpu = {
       initrd.enable = true;
       opencl.enable = true;
     };
   };
-  services.lvm.dmeventd.enable = true;
+  #services.lvm.dmeventd.enable = true;
 
   ############################################################
   # Virtualisation
@@ -225,7 +231,7 @@ in
       shell = pkgs.fish;
       extraGroups = [
         "wheel"
-        "openrazer"
+        #"openrazer"
         "libvirtd"
       ];
     };
@@ -235,7 +241,7 @@ in
       shell = pkgs.fish;
       extraGroups = [
         "wheel"
-        "openrazer"
+        #"openrazer"
         "libvirtd"
       ];
     };

@@ -18,14 +18,14 @@
       eza
 
       # Apps
-      razergenie
+      #razergenie
       prismlauncher
       bitwarden-desktop
       vesktop
       zed-editor
       obs-studio
       kdePackages.kdenlive
-      davinci-resolve
+      #davinci-resolve
       gparted
       onlyoffice-desktopeditors
       zapzap
