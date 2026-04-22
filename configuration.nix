@@ -62,13 +62,24 @@ in
 
       limine = {
         enable = true;
-        secureBoot.enable = true;
+        secureBoot = {
+          enable = true;
+          autoGenerateKeys = true;
+          autoEnrollKeys = {
+            enable = true;
+            extraArgs = [
+              "--microsoft"
+              "--firmware-builtin"
+            ];
+          };
+        };
         enableEditor = true;
         extraEntries = ''
           /Windows
             protocol: efi
             path: boot():/EFI/Microsoft/Boot/bootmgfw.efi
         '';
+        extraConfig = "timeout: no";
 
         style = {
           interface.resolution = "1920x1200";
