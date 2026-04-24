@@ -7,7 +7,7 @@
   home = {
     username = "root";
     homeDirectory = "/root";
-    stateVersion = "25.11";
+    stateVersion = "26.05";
 
     sessionVariables = {
       GTK_USE_PORTAL = "1";
@@ -40,7 +40,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "Iosevka Nerd Font"
+        "JetBrainsMono Nerd Font"
         "Noto Color Emoji"
       ];
     };

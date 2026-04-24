@@ -7,7 +7,7 @@
   home = {
     username = "loicdm";
     homeDirectory = "/home/loicdm";
-    stateVersion = "25.11";
+    stateVersion = "26.05";
 
     sessionVariables = {
       GTK_USE_PORTAL = "1";
@@ -55,7 +55,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "Iosevka Nerd Font"
+        "JetBrainsMono Nerd Font"
         "Noto Color Emoji"
       ];
     };
@@ -75,6 +75,8 @@
     firefox = {
       enable = true;
       nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ];
+      #configPath = "${config.xdg.configHome}/mozilla/firefox";
+
       profiles = {
         loicdm = {
           isDefault = true;

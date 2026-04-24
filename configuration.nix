@@ -17,7 +17,7 @@ in
   ############################################################
   # System / Nix
   ############################################################
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   nix.settings = {
     auto-optimise-store = true;
@@ -100,7 +100,7 @@ in
     plymouth = {
       enable = true;
       theme = "catppuccin-mocha";
-      font = "${pkgs.nerd-fonts.iosevka}/share/fonts/truetype/NerdFonts/Iosevka/IosevkaNerdFont-Regular.ttf";
+      font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFont-Regular.ttf";
       themePackages = [
         (pkgs.catppuccin-plymouth.override {
           variant = catppuccin_style.variant;
@@ -391,6 +391,7 @@ in
     packages = with pkgs; [
       nerd-fonts.iosevka
       nerd-fonts.iosevka-term
+      nerd-fonts.jetbrains-mono
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
