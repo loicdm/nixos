@@ -315,8 +315,9 @@ in
   # Programs / CLI
   ############################################################
   programs = {
-    command-not-found.enable = true;
+    #command-not-found.enable = true;
     direnv.enable = true;
+    #nix-index.enable = true;
     fish = {
       enable = true;
 
