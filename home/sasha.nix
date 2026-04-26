@@ -21,7 +21,6 @@
       #razergenie
       prismlauncher
       bitwarden-desktop
-      vesktop
       zed-editor
       obs-studio
       kdePackages.kdenlive
@@ -65,6 +64,16 @@
   ############################################################
   programs = {
     home-manager.enable = true;
+    vesktop = {
+      enable = true;
+      settings = import ./vesktop/settings.nix;
+    };
+    discord = {
+      enable = true;
+      settings = {
+        SKIP_HOST_UPDATE = true;
+      };
+    };
 
     ##########################################################
     # Browser / Mail
