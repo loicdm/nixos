@@ -1,4 +1,10 @@
-{ pkgs, ... }:
+{
+  config,
+  pkgs,
+  modulesPath,
+  lib,
+  ...
+}:
 
 let
   catppuccin_style = {
@@ -11,7 +17,7 @@ in
   # Imports
   ############################################################
   imports = [
-    ./hardware-configuration.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   ############################################################
@@ -32,6 +38,36 @@ in
     allowReboot = false;
   };
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  ############################################################
+  # File Systems
+  ############################################################
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/2ec93e76-3e8c-40a0-b55e-33b728a501ee";
+      fsType = "btrfs";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/7CA1-EA5A";
+      fsType = "vfat";
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
+    };
+  };
+
+  ############################################################
+  # Swap Devices
+  ############################################################
+  swapDevices = [
+    {
+      device = "/dev/disk/by-uuid/6dc43f27-e48c-4c70-862e-dd3cfea918c3";
+      label = "swap";
+    }
+  ];
+
   ############################################################
   # Boot
   ############################################################
@@ -45,15 +81,31 @@ in
       "vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166"
       "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
       "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
-      "zswap.enabled=1" # enables zswap
-      "zswap.compressor=zstd" # compression algorithm
-      "zswap.max_pool_percent=20" # maximum percentage of RAM that zswap is allowed to use
-      "zswap.shrinker_enabled=1" # whether to shrink the pool proactively on high memory pressure
     ];
-
+    kernelModules = [ "kvm-intel" ];
     initrd = {
       verbose = false;
       systemd.enable = true;
+      availableKernelModules = [
+        "xhci_pci"
+        "ahci"
+        "nvme"
+        "uas"
+        "usbhid"
+        "sd_mod"
+      ];
+      kernelModules = [
+        "dm-snapshot"
+        "dm_mod"
+        "dm_mirror"
+        "dm_snapshot"
+        "dm_thin_pool"
+      ];
+    };
+    zswap = {
+      enable = true;
+      compressor = "zstd";
+      maxPoolPercent = 25;
     };
 
     loader = {
@@ -113,6 +165,7 @@ in
   # Hardware
   ############################################################
   hardware = {
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     #openrazer.enable = true;
     wooting.enable = true;
     amdgpu = {
