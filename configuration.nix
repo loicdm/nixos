@@ -295,6 +295,8 @@ in
         ls = "eza --icons --group-directories-first --git -@ --git-repos --header --group --created --modified";
         ll = "ls -l";
         la = "ls -al";
+
+        ffa = "fastfetch -c all";
       };
     };
 
