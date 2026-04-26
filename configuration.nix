@@ -23,57 +23,46 @@ in
   ############################################################
   # System / Nix
   ############################################################
-  system.stateVersion = "26.05";
+  system = {
+    stateVersion = "26.05";
 
-  nix.settings = {
-    auto-optimise-store = true;
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    autoUpgrade = {
+      enable = false;
+      allowReboot = false;
+    };
   };
 
-  system.autoUpgrade = {
-    enable = false;
-    allowReboot = false;
+  nix = {
+    settings = {
+
+      auto-optimise-store = true;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      cores = 0;
+      max-jobs = "auto";
+    };
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   ############################################################
-  # File Systems
-  ############################################################
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/2ec93e76-3e8c-40a0-b55e-33b728a501ee";
-      fsType = "btrfs";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/7CA1-EA5A";
-      fsType = "vfat";
-      options = [
-        "fmask=0077"
-        "dmask=0077"
-      ];
-    };
-  };
-
-  ############################################################
-  # Swap Devices
-  ############################################################
-  swapDevices = [
-    {
-      device = "/dev/disk/by-uuid/6dc43f27-e48c-4c70-862e-dd3cfea918c3";
-      label = "swap";
-    }
-  ];
-
-  ############################################################
-  # Boot
+  # Boot / Hardware
   ############################################################
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
     consoleLogLevel = 3;
+    kernel.sysctl = {
+      "vm.swappiness" = 10;
+    };
+
     kernelParams = [
       "quiet"
       "udev.log_level=3"
@@ -82,10 +71,13 @@ in
       "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
       "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
     ];
+
     kernelModules = [ "kvm-intel" ];
+
     initrd = {
       verbose = false;
       systemd.enable = true;
+
       availableKernelModules = [
         "xhci_pci"
         "ahci"
@@ -94,18 +86,14 @@ in
         "usbhid"
         "sd_mod"
       ];
-      kernelModules = [
-        "dm-snapshot"
-        "dm_mod"
-        "dm_mirror"
-        "dm_snapshot"
-        "dm_thin_pool"
-      ];
+
+      kernelModules = [ ];
     };
+
     zswap = {
       enable = true;
       compressor = "zstd";
-      maxPoolPercent = 25;
+      maxPoolPercent = 15;
     };
 
     loader = {
@@ -114,9 +102,11 @@ in
 
       limine = {
         enable = true;
+
         secureBoot = {
           enable = true;
           autoGenerateKeys = true;
+
           autoEnrollKeys = {
             enable = true;
             extraArgs = [
@@ -125,12 +115,15 @@ in
             ];
           };
         };
+
         enableEditor = true;
+
         extraEntries = ''
           /Windows
             protocol: efi
             path: boot():/EFI/Microsoft/Boot/bootmgfw.efi
         '';
+
         extraConfig = "timeout: no";
 
         style = {
@@ -152,7 +145,9 @@ in
     plymouth = {
       enable = true;
       theme = "catppuccin-mocha";
+
       font = "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMono/JetBrainsMonoNerdFont-Regular.ttf";
+
       themePackages = [
         (pkgs.catppuccin-plymouth.override {
           variant = catppuccin_style.variant;
@@ -161,33 +156,45 @@ in
     };
   };
 
-  ############################################################
-  # Hardware
-  ############################################################
   hardware = {
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    #openrazer.enable = true;
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
     wooting.enable = true;
+
     amdgpu = {
       initrd.enable = true;
       opencl.enable = true;
     };
   };
-  #services.lvm.dmeventd.enable = true;
 
   ############################################################
-  # Virtualisation
+  # Storage
   ############################################################
-
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/2ec93e76-3e8c-40a0-b55e-33b728a501ee";
+      fsType = "btrfs";
     };
-    docker = {
-      enable = true;
+
+    "/boot" = {
+      device = "/dev/disk/by-uuid/7CA1-EA5A";
+      fsType = "vfat";
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
     };
   };
+
+  swapDevices = [
+    {
+      device = lib.mkDefault "/dev/disk/by-uuid/6dc43f27-e48c-4c70-862e-dd3cfea918c3";
+      label = "swap";
+    }
+  ];
 
   ############################################################
   # Networking
@@ -195,13 +202,17 @@ in
   networking = {
     hostName = "loicdm-pc";
     networkmanager.enable = true;
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      checkReversePath = "loose";
+    };
   };
 
   ############################################################
-  # Locale / Console
+  # Locale / Input
   ############################################################
   time.timeZone = "Europe/Paris";
+
   i18n = {
     defaultLocale = "fr_FR.UTF-8";
 
@@ -227,62 +238,50 @@ in
   services.xserver.xkb.layout = "fr";
 
   ############################################################
-  # Power / Performance
+  # Services (system)
   ############################################################
-  services.tuned = {
-    enable = true;
-    ppdSettings.main.default = "performance";
+  services = {
+    # Desktop
+    desktopManager.plasma6.enable = true;
+
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      wayland.compositor = "kwin";
+    };
+
+    # Audio
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      jack.enable = true;
+    };
+
+    # Performance
+    tuned = {
+      enable = true;
+      ppdSettings.main.default = "performance";
+    };
+
+    power-profiles-daemon.enable = false;
   };
 
-  services.power-profiles-daemon.enable = false;
   programs.gamemode.enable = true;
 
   ############################################################
-  # Desktop (Plasma 6 + SDDM)
+  # Virtualisation
   ############################################################
-  services.desktopManager.plasma6.enable = true;
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+    };
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    wayland.compositor = "kwin";
-
-    # theme = "${
-    #   pkgs.catppuccin-sddm.override {
-    #     flavor = catppuccin_style.variant;
-    #     accent = catppuccin_style.accent;
-    #     userIcon = true;
-    #   }
-    # }/share/sddm/themes/catppuccin-mocha-mauve";
-  };
-
-  ############################################################
-  # Specialisations
-  ############################################################
-  # specialisation.gnome.configuration = {
-  #   # Désactive KDE
-  #   services.desktopManager.plasma6.enable = lib.mkForce false;
-
-  #   # Active GNOME
-  #   services.xserver.displayManager.gdm.enable = true;
-  #   services.xserver.desktopManager.gnome.enable = true;
-
-  #   # Désactive SDDM (sinon conflit avec GDM)
-  #   services.displayManager.sddm.enable = lib.mkForce false;
-
-  #   # (optionnel) virer des paquets KDE typiques si tu veux
-  #   environment.systemPackages = with pkgs; [
-  #     gnome-tweaks
-  #     gnomeExtensions.appindicator
-  #   ];
-  # };
-
-  ############################################################
-  # Audio
-  ############################################################
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
+    docker.enable = true;
   };
 
   ############################################################
@@ -295,45 +294,38 @@ in
       shell = pkgs.fish;
       extraGroups = [
         "wheel"
-        #"openrazer"
         "libvirtd"
       ];
     };
+
     sasha = {
       isNormalUser = true;
       description = "Claire Perreaux";
       shell = pkgs.fish;
       extraGroups = [
         "wheel"
-        #"openrazer"
         "libvirtd"
       ];
     };
-    root = {
-      shell = pkgs.fish;
-    };
+
+    root.shell = pkgs.fish;
   };
 
   ############################################################
-  # Programs
+  # Programs / CLI
   ############################################################
   programs = {
-    ##########################################################
-    # Shell
-    ##########################################################
+    command-not-found.enable = true;
+    direnv.enable = true;
     fish = {
       enable = true;
 
       interactiveShellInit = ''
-        # Désactive le greeting
         set -g fish_greeting
-
-        # Bitwarden SSH Agent socket
         set --export SSH_AUTH_SOCK '/home/loicdm/.bitwarden-ssh-agent.sock'
       '';
 
       shellInit = ''
-        # Charge le thème Catppuccin Mocha
         source ${./fish/catppuccin-mocha.fish}
       '';
 
@@ -358,9 +350,6 @@ in
       settings = import ./starship/starship.nix;
     };
 
-    ##########################################################
-    # Dev tools
-    ##########################################################
     git.enable = true;
 
     neovim = {
@@ -370,9 +359,6 @@ in
       viAlias = true;
     };
 
-    ##########################################################
-    # CLI utilities
-    ##########################################################
     bat = {
       enable = true;
       settings.theme = "'Catppuccin Mocha'";
@@ -385,10 +371,12 @@ in
     };
 
     virt-manager.enable = true;
+
     steam = {
-      enable = true; # Master switch, already covered in installation
-      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+
       extraCompatPackages = with pkgs; [
         proton-ge-bin
         catppuccin-cursors.mochaMauve
@@ -397,13 +385,16 @@ in
     };
 
     partition-manager.enable = true;
-
   };
 
   ############################################################
-  # Environment
+  # Environment / Packages
   ############################################################
   environment = {
+    variables = {
+      AMD_VULKAN_ICD = "RADV";
+      RADV_PERFTEST = "aco";
+    };
     systemPackages = with pkgs; [
       sbctl
       man-pages
@@ -415,34 +406,43 @@ in
       kdePackages.sddm-kcm
       efibootmgr
       ntfs3g
+      #dnsmasq
 
       # Theming
       catppuccin-cursors.mochaMauve
       catppuccin-cursors.mochaDark
 
       (catppuccin.override catppuccin_style)
+
       (catppuccin-kde.override {
         flavour = [ catppuccin_style.variant ];
         accents = [ catppuccin_style.accent ];
       })
+
       (catppuccin-gtk.override {
         variant = catppuccin_style.variant;
         accents = [ catppuccin_style.accent ];
       })
+
       (catppuccin-papirus-folders.override {
         flavor = catppuccin_style.variant;
         accent = catppuccin_style.accent;
       })
-      dnsmasq
-
     ];
   };
-
   ############################################################
   # Fonts
   ############################################################
   fonts = {
-    fontconfig.enable = true;
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        monospace = [ "JetBrainsMono Nerd Font" ];
+        sansSerif = [ "Noto Sans" ];
+        serif = [ "Noto Serif" ];
+      };
+    };
+
     packages = with pkgs; [
       nerd-fonts.iosevka
       nerd-fonts.iosevka-term
@@ -462,6 +462,7 @@ in
 
   documentation = {
     dev.enable = true;
+
     man = {
       man-db.enable = true;
       mandoc.enable = false;
