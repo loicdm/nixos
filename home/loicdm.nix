@@ -82,8 +82,10 @@
     firefox = {
       enable = true;
       nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ];
-      #configPath = "${config.xdg.configHome}/mozilla/firefox";
-
+      languagePacks = [
+        "fr"
+        "en-US"
+      ];
       profiles = {
         loicdm = {
           isDefault = true;

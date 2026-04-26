@@ -74,13 +74,16 @@
         SKIP_HOST_UPDATE = true;
       };
     };
-
     ##########################################################
     # Browser / Mail
     ##########################################################
     firefox = {
       enable = true;
       nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ];
+      languagePacks = [
+        "fr"
+        "en-US"
+      ];
       profiles = {
         loicdm = {
           isDefault = true;
