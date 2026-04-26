@@ -26,7 +26,6 @@
       obs-studio
       kdePackages.kdenlive
       #davinci-resolve
-      gparted
       onlyoffice-desktopeditors
       zapzap
       mpv
