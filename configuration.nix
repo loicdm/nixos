@@ -244,10 +244,15 @@ in
     # Desktop
     desktopManager.plasma6.enable = true;
 
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-      wayland.compositor = "kwin";
+    displayManager = {
+      sddm = {
+        enable = false;
+        wayland.enable = true;
+        wayland.compositor = "kwin";
+      };
+      plasma-login-manager = {
+        enable = true;
+      };
     };
 
     # Audio
