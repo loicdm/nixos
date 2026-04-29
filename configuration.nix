@@ -57,7 +57,9 @@ in
   # Boot / Hardware
   ############################################################
   boot = {
-    kernelPackages = pkgs.linuxPackages_zen;
+    #kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_latest-libre;
     consoleLogLevel = 3;
     kernel.sysctl = {
       "vm.swappiness" = 10;
@@ -116,7 +118,7 @@ in
           };
         };
 
-        enableEditor = true;
+        #enableEditor = true;
 
         extraEntries = ''
           /Windows

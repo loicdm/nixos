@@ -27,7 +27,7 @@
       #davinci-resolve
       onlyoffice-desktopeditors
       zapzap
-      mpv
+      #mpv
 
       # Nix tooling
       nil

@@ -26,7 +26,7 @@
       kdePackages.kdenlive
       onlyoffice-desktopeditors
       zapzap
-      mpv
+      #mpv
 
       # Nix tooling
       nil
