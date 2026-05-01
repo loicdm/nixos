@@ -11,6 +11,12 @@ let
     variant = "mocha";
     accent = "mauve";
   };
+  dns_servers = [
+    "1.0.0.2"
+    "1.1.1.2"
+    "2606:4700:4700::1002"
+    "2606:4700:4700::1112"
+  ];
 in
 {
   ############################################################
@@ -203,7 +209,11 @@ in
   ############################################################
   networking = {
     hostName = "loicdm-pc";
-    networkmanager.enable = true;
+    nameservers = dns_servers;
+    networkmanager = {
+      enable = true;
+      insertNameservers = dns_servers;
+    };
     firewall = {
       enable = true;
       checkReversePath = "loose";

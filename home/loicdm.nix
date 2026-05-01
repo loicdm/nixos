@@ -28,6 +28,7 @@
       onlyoffice-desktopeditors
       zapzap
       #mpv
+      kdePackages.dragon
 
       # Nix tooling
       nil
