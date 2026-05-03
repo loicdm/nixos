@@ -12,10 +12,10 @@ let
     accent = "mauve";
   };
   dns_servers = [
-    "1.0.0.2"
-    "1.1.1.2"
-    "2606:4700:4700::1002"
-    "2606:4700:4700::1112"
+    "1.1.1.1#cloudflare-dns.com"
+    "1.0.0.1#cloudflare-dns.com"
+    "2606:4700:4700::1111#cloudflare-dns.com"
+    "2606:4700:4700::1001#cloudflare-dns.com"
   ];
 in
 {
@@ -84,8 +84,11 @@ in
 
     initrd = {
       verbose = false;
-      systemd.enable = true;
-
+      systemd = {
+        enable = true;
+        network.enable = true;
+      };
+      services.resolved.enable = true;
       availableKernelModules = [
         "xhci_pci"
         "ahci"
@@ -212,11 +215,19 @@ in
     nameservers = dns_servers;
     networkmanager = {
       enable = true;
+      dns = "systemd-resolved";
       insertNameservers = dns_servers;
     };
     firewall = {
       enable = true;
       checkReversePath = "loose";
+    };
+  };
+  services.resolved = {
+    enable = true;
+    settings.Resolve = {
+      DNSOverTLS = true;
+      DNS = dns_servers;
     };
   };
 
@@ -276,6 +287,89 @@ in
         support32Bit = true;
       };
       jack.enable = true;
+      extraConfig.pipewire = {
+        "91-virtual-sink" = {
+          "context.modules" = [
+            {
+              name = "libpipewire-module-loopback";
+              args = {
+                "audio.channels" = 2;
+                "audio.position" = [
+                  "FL"
+                  "FR"
+                ];
+
+                "capture.props" = {
+                  "media.class" = "Audio/Sink";
+                  "node.name" = "virtual_sink1";
+                  "node.description" = "Virtual Sink 1";
+                  "node.virtual" = true;
+                };
+
+                "playback.props" = {
+                  "node.name" = "virtual_sink1.output";
+                  "node.passive" = true;
+                  "target.object" = "@DEFAULT_SINK@";
+                };
+              };
+            }
+          ];
+        };
+        "92-virtual-sink" = {
+          "context.modules" = [
+            {
+              name = "libpipewire-module-loopback";
+              args = {
+                "audio.channels" = 2;
+                "audio.position" = [
+                  "FL"
+                  "FR"
+                ];
+
+                "capture.props" = {
+                  "media.class" = "Audio/Sink";
+                  "node.name" = "virtual_sink2";
+                  "node.description" = "Virtual Sink 2";
+                  "node.virtual" = true;
+                };
+
+                "playback.props" = {
+                  "node.name" = "virtual_sink2.output";
+                  "node.passive" = true;
+                  "target.object" = "@DEFAULT_SINK@";
+                };
+              };
+            }
+          ];
+        };
+        "93-virtual-sink" = {
+          "context.modules" = [
+            {
+              name = "libpipewire-module-loopback";
+              args = {
+                "audio.channels" = 2;
+                "audio.position" = [
+                  "FL"
+                  "FR"
+                ];
+
+                "capture.props" = {
+                  "media.class" = "Audio/Sink";
+                  "node.name" = "virtual_sink3";
+                  "node.description" = "Virtual Sink 3";
+                  "node.virtual" = true;
+                };
+
+                "playback.props" = {
+                  "node.name" = "virtual_sink3.output";
+                  "node.passive" = true;
+                  "target.object" = "@DEFAULT_SINK@";
+                };
+              };
+            }
+          ];
+        };
+      };
     };
 
     # Performance

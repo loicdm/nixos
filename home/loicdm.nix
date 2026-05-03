@@ -29,6 +29,7 @@
       zapzap
       #mpv
       kdePackages.dragon
+      crosspipe
 
       # Nix tooling
       nil
