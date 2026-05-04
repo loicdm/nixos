@@ -11,12 +11,6 @@ let
     variant = "mocha";
     accent = "mauve";
   };
-  dns_servers = [
-    "1.1.1.1#cloudflare-dns.com"
-    "1.0.0.1#cloudflare-dns.com"
-    "2606:4700:4700::1111#cloudflare-dns.com"
-    "2606:4700:4700::1001#cloudflare-dns.com"
-  ];
 in
 {
   ############################################################
@@ -88,7 +82,6 @@ in
         enable = true;
         network.enable = true;
       };
-      services.resolved.enable = true;
       availableKernelModules = [
         "xhci_pci"
         "ahci"
@@ -212,22 +205,12 @@ in
   ############################################################
   networking = {
     hostName = "loicdm-pc";
-    nameservers = dns_servers;
     networkmanager = {
       enable = true;
-      dns = "systemd-resolved";
-      insertNameservers = dns_servers;
     };
     firewall = {
       enable = true;
       checkReversePath = "loose";
-    };
-  };
-  services.resolved = {
-    enable = true;
-    settings.Resolve = {
-      DNSOverTLS = true;
-      DNS = dns_servers;
     };
   };
 
