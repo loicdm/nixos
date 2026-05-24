@@ -30,6 +30,12 @@
       #mpv
       kdePackages.dragon
       crosspipe
+      adoptopenjdk-icedtea-web
+      nextcloud-client
+      kdePackages.isoimagewriter
+
+      #vm tools
+      virt-viewer
 
       # Nix tooling
       nil

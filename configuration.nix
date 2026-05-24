@@ -57,8 +57,8 @@ in
   # Boot / Hardware
   ############################################################
   boot = {
-    #kernelPackages = pkgs.linuxPackages_zen;
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_zen;
+    #kernelPackages = pkgs.linuxPackages_latest;
     #kernelPackages = pkgs.linuxPackages_latest-libre;
     consoleLogLevel = 3;
     kernel.sysctl = {
@@ -218,6 +218,14 @@ in
   # Locale / Input
   ############################################################
   time.timeZone = "Europe/Paris";
+  services.timesyncd.enable = false;
+  services.chrony.enable = true;
+  networking.timeServers = [
+    "0.fr.pool.ntp.org"
+    "1.fr.pool.ntp.org"
+    "2.fr.pool.ntp.org"
+    "3.fr.pool.ntp.org"
+  ];
 
   i18n = {
     defaultLocale = "fr_FR.UTF-8";

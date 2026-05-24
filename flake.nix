@@ -31,6 +31,9 @@
             # Allow unfree packages
             { nixpkgs.config.allowUnfree = true; }
 
+            # Set hostname
+            { networking.hostName = hostname; }
+
             # Home Manager
             home-manager.nixosModules.home-manager
             {
